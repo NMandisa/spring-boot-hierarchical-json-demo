@@ -1,0 +1,50 @@
+server:
+  #port: 0
+  servlet:
+    error:
+        include-binding-errors: always
+        include-message: always
+        include-stacktrace: never
+    include-exception: true
+spring:
+  application:
+    name: json-node-tree
+  # Banner
+  main:
+    banner-mode: console
+  output:
+    ansi:
+      enabled: always
+  #Security
+  security:
+    user:
+      name: user
+      password: default
+  ## Datasource
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:./db
+    username: sa
+    password: sa
+  ## JPA
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    # dev only set to true for debugging purposes
+    show-sql: true
+    ## JPA - HIBERNATE
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+  # H2 Database
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+        web-allow-others: false
+        web-admin-password: 1234
+  jackson:
+    default-property-inclusion: non_null
