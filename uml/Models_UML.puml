@@ -1,0 +1,78 @@
+@startuml
+
+left to right direction
+'skinparam groupInheritance 5
+'https://plantuml.com/class-diagram
+!pragma useIntermediatePackages false
+package za.co.mkhungo.model {
+'note "Bidirectional relationship customer_has_orders" as customerNote
+class Customer <<Entity>> {
+    - id : Long
+    - firstName : String
+    - surname : String
+    - orders : List <<Order>>
+    + void addOrder(Order order)
+    + void removeOrder(Order order)
+    + getters()
+    + setters()
+}
+'note "entity classes and their relation" as N2
+class Order <<Entity>> {
+    -  id : Long
+    - placedOn : Date
+    - orderStatus : OrderStatus
+    - customer : Customer
+    - products : List <<Product>>
+    + void addProduct(Product product)
+    + void removeProduct(Product product)
+    + getters()
+    + setters()
+}
+class Product <<Entity>> {
+    - id : Long
+    - name : String
+    - price : Double
+    - ratings : List <<Rating>>
+    - order : <<Order>>
+    + void addRating(Rating rating)
+    + void removeRating(Rating rating)
+    + getters()
+    + setters()
+}
+
+class Rating <<Entity>> {
+    - id : Long
+    - rate : Integer
+    - reviews : List <<Review>>
+    - product : <<Product>>
+    + void addReview(Review review)
+    + void removeReview(Review review)
+    + getters()
+    + setters()
+
+}
+class Review <<Entity>> {
+    - Long id
+    - String comment
+    - <<Rating>> rating
+    + getters()
+    + setters()
+}
+
+package za.co.mkhungo.model.enums{
+enum OrderStatus {
+ACCEPTED
+PACKAGED
+SHIPPED
+}
+}
+}
+
+Customer::orders --> Order::customer
+Order::orderStatus --> OrderStatus
+Order::products --> Product::order
+Product::ratings --> Rating::product
+Review::rating --> Rating::reviews
+'Customer .. customerNote
+'customerNote .. Order
+@enduml
