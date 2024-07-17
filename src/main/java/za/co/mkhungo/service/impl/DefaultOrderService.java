@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import za.co.mkhungo.dto.OrderDTO;
 import za.co.mkhungo.facade.OrderFacade;
-import za.co.mkhungo.model.Order;
+import za.co.mkhungo.helper.PopulateResponseHelper;
+import za.co.mkhungo.response.OrderResponse;
 import za.co.mkhungo.service.OrderService;
 
 import java.util.List;
@@ -18,17 +19,20 @@ import java.util.List;
 @Service
 public class DefaultOrderService implements OrderService {
     private final OrderFacade orderFacade;
+    private final PopulateResponseHelper populateResponseHelper;
     @Autowired
-    public DefaultOrderService(@Qualifier("defaultOrderFacade") OrderFacade orderFacade){
+    public DefaultOrderService(@Qualifier("defaultOrderFacade") OrderFacade orderFacade,PopulateResponseHelper populateResponseHelper){
         this.orderFacade=orderFacade;
+        this.populateResponseHelper=populateResponseHelper;
     }
 
     /**
      * @return
      */
     @Override
-    public List<OrderDTO> getAllOrders() {
-        return orderFacade.getAllOrders();
+    public OrderResponse getAllOrders() {
+        List<OrderDTO> orders = orderFacade.getAllOrders();
+        return populateResponseHelper.populateOrderTree(orders);
     }
 
     /**
@@ -36,7 +40,7 @@ public class DefaultOrderService implements OrderService {
      * @return
      */
     @Override
-    public Long save(Order order) {
+    public Long save(OrderDTO order) {
         return null;
     }
 
@@ -46,7 +50,7 @@ public class DefaultOrderService implements OrderService {
      * @return
      */
     @Override
-    public int edit(Order order, Long id) {
+    public int edit(OrderDTO order, Long id) {
         return 0;
     }
 

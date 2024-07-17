@@ -42,21 +42,21 @@ public class DefaultRatingFacade implements RatingFacade {
     }
 
     /**
-     * @param rating
+     * @param ratingDTO
      * @return
      */
     @Override
-    public Long save(Rating rating) {
+    public Long save(RatingDTO ratingDTO) {
         return null;
     }
 
     /**
-     * @param rating
+     * @param ratingDTO
      * @param id
      * @return
      */
     @Override
-    public int edit(Rating rating, Long id) {
+    public int edit(RatingDTO ratingDTO, Long id) {
         return 0;
     }
 

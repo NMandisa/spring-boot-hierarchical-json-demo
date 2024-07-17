@@ -30,7 +30,7 @@ public class Rating {
     @Column(name = "rating")
     private int rate;
 
-    @OneToMany(mappedBy = "rating",cascade = CascadeType.ALL,fetch = FetchType.LAZY,orphanRemoval = true)
+    @OneToMany(mappedBy = "rating",cascade = CascadeType.ALL,fetch = FetchType.EAGER,orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
     private List<Review> reviews= new ArrayList<>();
 

@@ -1,13 +1,10 @@
 package za.co.mkhungo.response.node;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import za.co.mkhungo.response.node.sub.ReviewSubTree;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Noxolo.Mkhungo
@@ -16,6 +13,8 @@ import java.util.Set;
 @Setter
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ReviewTree {
-    private Set<ReviewSubTree> reviews = new HashSet<>();
+    private List<ReviewSubTree> review = new ArrayList<>();
 }

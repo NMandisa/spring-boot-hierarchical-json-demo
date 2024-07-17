@@ -3,8 +3,8 @@ package za.co.mkhungo.response.node;
 import lombok.*;
 import za.co.mkhungo.response.node.sub.RatingSubTree;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Noxolo.Mkhungo
@@ -16,5 +16,5 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RatingTree {
-    private Set<RatingSubTree> ratings = new HashSet<>();
+    private List<RatingSubTree> rating = new ArrayList<>();
 }

@@ -2,10 +2,8 @@ package za.co.mkhungo.facade.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import za.co.mkhungo.dto.CustomerDTO;
 import za.co.mkhungo.dto.OrderDTO;
 import za.co.mkhungo.facade.OrderFacade;
-import za.co.mkhungo.model.Customer;
 import za.co.mkhungo.model.Order;
 import za.co.mkhungo.repository.OrderRepository;
 import za.co.mkhungo.utils.MapperUtil;
@@ -40,21 +38,21 @@ public class DefaultOrderFacade implements OrderFacade {
     }
 
     /**
-     * @param order
+     * @param orderDTO
      * @return
      */
     @Override
-    public Long save(Order order) {
+    public Long save(OrderDTO orderDTO) {
         return null;
     }
 
     /**
-     * @param order
+     * @param orderDTO
      * @param id
      * @return
      */
     @Override
-    public int edit(Order order, Long id) {
+    public int edit(OrderDTO orderDTO, Long id) {
         return 0;
     }
 

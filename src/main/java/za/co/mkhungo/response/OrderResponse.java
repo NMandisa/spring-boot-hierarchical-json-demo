@@ -13,5 +13,5 @@ import za.co.mkhungo.response.node.OrderTree;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderResponse {
-    private OrderTree orderTree;
+    private OrderTree orders;
 }

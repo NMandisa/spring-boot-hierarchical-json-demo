@@ -1,16 +1,14 @@
 package za.co.mkhungo.service;
 
 import za.co.mkhungo.dto.OrderDTO;
-import za.co.mkhungo.model.Order;
-
-import java.util.List;
+import za.co.mkhungo.response.OrderResponse;
 
 /**
  * @author Noxolo.Mkhungo
  */
 public interface OrderService {
-    List<OrderDTO> getAllOrders();
-    Long save(Order order);
-    int edit(Order order,Long id);
+    OrderResponse getAllOrders();
+    Long save(OrderDTO orderDTO);
+    int edit(OrderDTO orderDTO,Long id);
     int delete(Long id);
 }

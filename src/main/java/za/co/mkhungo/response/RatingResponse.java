@@ -13,5 +13,5 @@ import za.co.mkhungo.response.node.RatingTree;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RatingResponse {
-    private RatingTree ratingTree;
+    private RatingTree ratings;
 }

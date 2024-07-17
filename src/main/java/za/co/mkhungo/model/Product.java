@@ -36,11 +36,11 @@ public class Product {
     @Column(name = "product_price")
     private Double price;
 
-    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL,fetch = FetchType.LAZY,orphanRemoval = true)
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL,fetch = FetchType.EAGER,orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
     private List<Rating> ratings= new ArrayList<>();
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(
             name = "product_has_order",
             joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "product_id"),

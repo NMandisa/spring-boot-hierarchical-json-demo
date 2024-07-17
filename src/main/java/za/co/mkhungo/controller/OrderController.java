@@ -6,10 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import za.co.mkhungo.dto.OrderDTO;
+import za.co.mkhungo.response.OrderResponse;
 import za.co.mkhungo.service.OrderService;
-
-import java.util.List;
 
 /**
  * @author Noxolo.Mkhungo
@@ -24,7 +22,7 @@ public class OrderController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<OrderDTO>> getR(){
+    public ResponseEntity<OrderResponse> getOrders(){
         return new ResponseEntity<>(orderService.getAllOrders(), HttpStatus.OK);
     }
 }

@@ -7,10 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import za.co.mkhungo.dto.ProductDTO;
+import za.co.mkhungo.response.ProductResponse;
 import za.co.mkhungo.service.ProductService;
-
-import java.util.List;
 
 /**
  * @author Noxolo.Mkhungo
@@ -26,7 +24,7 @@ public class ProductController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<ProductDTO>> getProducts(){
+    public ResponseEntity<ProductResponse> getProducts(){
         return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
     }
 }

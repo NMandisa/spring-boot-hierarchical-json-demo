@@ -7,10 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import za.co.mkhungo.dto.RatingDTO;
+import za.co.mkhungo.response.RatingResponse;
 import za.co.mkhungo.service.RatingService;
 
-import java.util.List;
 
 /**
  * @author Noxolo.Mkhungo
@@ -25,7 +24,7 @@ public class RatingController {
         this.ratingService=ratingService;
     }
     @GetMapping("/")
-    public ResponseEntity<List<RatingDTO>> getRatings(){
+    public ResponseEntity<RatingResponse> getRatings(){
         return new ResponseEntity<>(ratingService.getAllRatings(), HttpStatus.OK);
     }
 }

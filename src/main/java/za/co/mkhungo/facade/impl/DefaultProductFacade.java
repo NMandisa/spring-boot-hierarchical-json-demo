@@ -2,10 +2,8 @@ package za.co.mkhungo.facade.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import za.co.mkhungo.dto.CustomerDTO;
 import za.co.mkhungo.dto.ProductDTO;
 import za.co.mkhungo.facade.ProductFacade;
-import za.co.mkhungo.model.Customer;
 import za.co.mkhungo.model.Product;
 import za.co.mkhungo.repository.ProductRepository;
 import za.co.mkhungo.utils.MapperUtil;
@@ -40,21 +38,21 @@ public class DefaultProductFacade implements ProductFacade {
     }
 
     /**
-     * @param product
+     * @param productDTO
      * @return
      */
     @Override
-    public Long save(Product product) {
+    public Long save(ProductDTO productDTO) {
         return null;
     }
 
     /**
-     * @param product
+     * @param productDTO
      * @param id
      * @return
      */
     @Override
-    public int edit(Product product, Long id) {
+    public int edit(ProductDTO productDTO, Long id) {
         return 0;
     }
 

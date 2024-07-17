@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import za.co.mkhungo.response.CustomerResponse;
 import za.co.mkhungo.service.CustomerService;
 
 /**
@@ -22,7 +23,7 @@ public class CustomerController {
         this.customerService=customerService;
     }
     @GetMapping("/")
-    public ResponseEntity<?>getCustomers(){
+    public ResponseEntity<CustomerResponse>getCustomers(){
         return new ResponseEntity<>(customerService.getAllCustomers(), HttpStatus.OK);
     }
 }

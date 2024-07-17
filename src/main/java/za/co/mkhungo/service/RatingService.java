@@ -1,16 +1,14 @@
 package za.co.mkhungo.service;
 
 import za.co.mkhungo.dto.RatingDTO;
-import za.co.mkhungo.model.Rating;
-
-import java.util.List;
+import za.co.mkhungo.response.RatingResponse;
 
 /**
  * @author Noxolo.Mkhungo
  */
 public interface RatingService {
-    List<RatingDTO> getAllRatings();
-    Long save(Rating rating);
-    int edit(Rating rating,Long id);
+    RatingResponse getAllRatings();
+    Long save(RatingDTO ratingDTO);
+    int edit(RatingDTO ratingDTO,Long id);
     int delete(Long id);
 }

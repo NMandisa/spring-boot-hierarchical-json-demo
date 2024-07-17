@@ -1,7 +1,6 @@
 package za.co.mkhungo.facade;
 
 import za.co.mkhungo.dto.ProductDTO;
-import za.co.mkhungo.model.Product;
 
 import java.util.List;
 
@@ -10,7 +9,7 @@ import java.util.List;
  */
 public interface ProductFacade {
     List<ProductDTO> getAllProducts();
-    Long save(Product product);
-    int edit(Product product,Long id);
+    Long save(ProductDTO product);
+    int edit(ProductDTO product,Long id);
     int delete(Long id);
 }

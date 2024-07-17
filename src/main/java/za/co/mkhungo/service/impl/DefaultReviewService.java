@@ -5,10 +5,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import za.co.mkhungo.dto.ReviewDTO;
 import za.co.mkhungo.facade.ReviewFacade;
-import za.co.mkhungo.model.Review;
+import za.co.mkhungo.response.ReviewResponse;
 import za.co.mkhungo.service.ReviewService;
-
-import java.util.List;
 
 /**
  * @author Noxolo.Mkhungo
@@ -27,26 +25,27 @@ public class DefaultReviewService implements ReviewService {
      * @return
      */
     @Override
-    public List<ReviewDTO> getAllReviews() {
-        return reviewFacade.getAllReviews();
-    }
-
-    /**
-     * @param review
-     * @return
-     */
-    @Override
-    public Long save(Review review) {
+    public ReviewResponse getAllReviews() {
+        //return reviewFacade.getAllReviews();
         return null;
     }
 
     /**
-     * @param review
+     * @param reviewDTO
+     * @return
+     */
+    @Override
+    public Long save(ReviewDTO reviewDTO) {
+        return null;
+    }
+
+    /**
+     * @param reviewDTO
      * @param id
      * @return
      */
     @Override
-    public int edit(Review review, Long id) {
+    public int edit(ReviewDTO reviewDTO, Long id) {
         return 0;
     }
 

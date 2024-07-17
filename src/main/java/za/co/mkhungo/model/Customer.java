@@ -17,9 +17,9 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-/*@NamedEntityGraph(
+@NamedEntityGraph(
         name = "customer_orders_entity_graph",
-        attributeNodes = {@NamedAttributeNode("orders")})*/
+        attributeNodes = {@NamedAttributeNode("orders")})
 @Table(name = "customer")
 public class Customer {
 
@@ -33,7 +33,7 @@ public class Customer {
     @Column(name = "customer_surname")
     private String surname;
 
-    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL,fetch = FetchType.LAZY,orphanRemoval = true)
+    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL,fetch = FetchType.EAGER,orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
     private List<Order> orders= new ArrayList<>();
 

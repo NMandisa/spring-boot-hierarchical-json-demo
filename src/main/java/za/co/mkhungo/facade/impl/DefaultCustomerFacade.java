@@ -40,21 +40,21 @@ public class DefaultCustomerFacade implements CustomerFacade {
     }
 
     /**
-     * @param customer
+     * @param customerDTO
      * @return
      */
     @Override
-    public Long save(Customer customer) {
+    public Long save(CustomerDTO customerDTO) {
         return null;
     }
 
     /**
-     * @param customer
+     * @param customerDTO
      * @param id
      * @return
      */
     @Override
-    public int edit(Customer customer, Long id) {
+    public int edit(CustomerDTO customerDTO, Long id) {
         return 0;
     }
 

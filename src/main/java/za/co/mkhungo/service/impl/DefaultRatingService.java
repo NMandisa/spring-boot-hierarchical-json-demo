@@ -5,10 +5,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import za.co.mkhungo.dto.RatingDTO;
 import za.co.mkhungo.facade.RatingFacade;
-import za.co.mkhungo.model.Rating;
+import za.co.mkhungo.response.RatingResponse;
 import za.co.mkhungo.service.RatingService;
-
-import java.util.List;
 
 /**
  * @author Noxolo.Mkhungo
@@ -25,8 +23,9 @@ public class DefaultRatingService implements RatingService {
      * @return
      */
     @Override
-    public List<RatingDTO> getAllRatings() {
-        return ratingFacade.getAllRatings();
+    public RatingResponse getAllRatings() {
+        //return ratingFacade.getAllRatings();
+        return null;
     }
 
     /**
@@ -34,7 +33,7 @@ public class DefaultRatingService implements RatingService {
      * @return
      */
     @Override
-    public Long save(Rating rating) {
+    public Long save(RatingDTO rating) {
         return null;
     }
 
@@ -44,7 +43,7 @@ public class DefaultRatingService implements RatingService {
      * @return
      */
     @Override
-    public int edit(Rating rating, Long id) {
+    public int edit(RatingDTO rating, Long id) {
         return 0;
     }
 

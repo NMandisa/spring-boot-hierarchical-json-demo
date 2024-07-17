@@ -3,7 +3,6 @@ package za.co.mkhungo.dto;
 import lombok.*;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import za.co.mkhungo.model.Customer;
 import za.co.mkhungo.model.enums.OrderStatus;
 
 import java.time.LocalDateTime;
@@ -22,7 +21,7 @@ public class OrderDTO {
     private Long id;
     private LocalDateTime placedOn;
     private OrderStatus orderStatus;
-    private Customer customer;
+    private CustomerDTO customer;
     private List<ProductDTO> products= new ArrayList<>();
 
     public OrderDTO(){

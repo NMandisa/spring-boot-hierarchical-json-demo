@@ -4,8 +4,8 @@ import lombok.*;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Noxolo.Mkhungo
@@ -17,8 +17,8 @@ import java.util.Set;
 @AllArgsConstructor
 public class RatingDTO {
     private Long id;
-    private int rating;
-    private Set<ReviewDTO> reviews= new HashSet<>();
+    private int rate;
+    private List<ReviewDTO> reviews= new ArrayList<>();
     private ProductDTO product;
     public RatingDTO(){
         super();

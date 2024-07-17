@@ -1,16 +1,14 @@
 package za.co.mkhungo.service;
 
 import za.co.mkhungo.dto.ProductDTO;
-import za.co.mkhungo.model.Product;
-
-import java.util.List;
+import za.co.mkhungo.response.ProductResponse;
 
 /**
  * @author Noxolo.Mkhungo
  */
 public interface ProductService {
-    List<ProductDTO> getAllProducts();
-    Long save(Product product);
-    int edit(Product product,Long id);
+    ProductResponse getAllProducts();
+    Long save(ProductDTO productDTO);
+    int edit(ProductDTO productDTO,Long id);
     int delete(Long id);
 }

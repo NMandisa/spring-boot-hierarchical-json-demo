@@ -14,7 +14,7 @@ public final class MapperUtil {
     private static  ModelMapper modelMapper;
     private MapperUtil(){}
     @Autowired
-    static void setModelMapper(ModelMapper modelMapper){
+    void setModelMapper(ModelMapper modelMapper){
         MapperUtil.modelMapper =modelMapper;
     }
     public static ProductDTO convertProductModelToDto(Product product){

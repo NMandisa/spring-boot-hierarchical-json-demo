@@ -3,10 +3,8 @@ package za.co.mkhungo.facade.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import za.co.mkhungo.dto.CustomerDTO;
 import za.co.mkhungo.dto.ReviewDTO;
 import za.co.mkhungo.facade.ReviewFacade;
-import za.co.mkhungo.model.Customer;
 import za.co.mkhungo.model.Review;
 import za.co.mkhungo.repository.ReviewRepository;
 import za.co.mkhungo.utils.MapperUtil;
@@ -43,21 +41,21 @@ public class DefaultReviewFacade implements ReviewFacade {
     }
 
     /**
-     * @param review
+     * @param reviewDTO
      * @return
      */
     @Override
-    public Long save(Review review) {
+    public Long save(ReviewDTO reviewDTO) {
         return null;
     }
 
     /**
-     * @param review
+     * @param reviewDTO
      * @param id
      * @return
      */
     @Override
-    public int edit(Review review, Long id) {
+    public int edit(ReviewDTO reviewDTO, Long id) {
         return 0;
     }
 
