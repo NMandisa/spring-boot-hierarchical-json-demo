@@ -67,6 +67,7 @@ assembling nodes to form a tree and returning the completed tree structure.
 ```
 
 ![img.png](img.png)
+![db_tables](db_tables.png)
 
 ## Architecture : Design Pattern
 - Microservice Architecture Design Pattern
