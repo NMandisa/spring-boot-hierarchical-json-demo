@@ -67,6 +67,6 @@ public class CustomerController {
     @PostMapping("/{id}")
     public ResponseEntity<CustomerResponse> getCustomer(@PathVariable("id") Long id) throws CustomerNotFoundException
     {
-        return new ResponseEntity<>(customerService.getCustomerById(id), HttpStatus.OK);
+        return ResponseEntity.ok(customerService.getCustomerById(id));
     }
 }
