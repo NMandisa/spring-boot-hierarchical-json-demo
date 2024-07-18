@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import za.co.mkhungo.dto.CustomerDTO;
+import za.co.mkhungo.exception.CustomerNotFoundException;
 import za.co.mkhungo.facade.CustomerFacade;
 import za.co.mkhungo.model.Customer;
 import za.co.mkhungo.repository.CustomerRepository;
@@ -25,18 +26,28 @@ public class DefaultCustomerFacade implements CustomerFacade {
     }
 
     /**
-     * @return
+     * @return List<CustomerDTO>
      */
     @Override
     public List<CustomerDTO> getAllCustomers() {
         List<CustomerDTO> customerDTOS=new ArrayList<>();
         List<Customer> customers= customerRepository.findAll();
         customers.forEach(customer -> {
-            log.info("Customer : " + customer);
+            log.info("Customer : {}", customer);
             CustomerDTO customerDTO = MapperUtil.convertCustomerModelToDto(customer);
             customerDTOS.add(customerDTO);
         });
         return customerDTOS;
+    }
+
+    /**
+     * @param id customer id
+     * @return customer
+     */
+    @Override
+    public CustomerDTO getCustomerById(long id) throws CustomerNotFoundException {
+        Customer customer = customerRepository.findById(id).orElseThrow(CustomerNotFoundException::new);
+        return MapperUtil.convertCustomerModelToDto(customer);
     }
 
     /**
