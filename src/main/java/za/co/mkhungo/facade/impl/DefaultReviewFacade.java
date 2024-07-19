@@ -33,7 +33,7 @@ public class DefaultReviewFacade implements ReviewFacade {
         List<ReviewDTO> reviewDTOS=new ArrayList<>();
         List<Review> reviews= reviewRepository.findAll();
         reviews.forEach(review -> {
-            log.info("Review : " + review);
+            log.debug("Review : {}", review);
             ReviewDTO reviewDTO = MapperUtil.convertReviewModelToDto(review);
             reviewDTOS.add(reviewDTO);
         });

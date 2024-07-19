@@ -30,7 +30,7 @@ public class DefaultOrderFacade implements OrderFacade {
         List<OrderDTO> orderDTOS=new ArrayList<>();
         List<Order> orders= orderRepository.findAll();
         orders.forEach(order -> {
-            log.info("Order : " + order);
+            log.debug("Order : {}", order);
             OrderDTO orderDTO = MapperUtil.convertOrderModelToDto(order);
             orderDTOS.add(orderDTO);
         });
@@ -47,8 +47,8 @@ public class DefaultOrderFacade implements OrderFacade {
     }
 
     /**
-     * @param orderDTO
-     * @param id
+     * @param orderDTO order dto
+     * @param id order id
      * @return
      */
     @Override
@@ -57,7 +57,7 @@ public class DefaultOrderFacade implements OrderFacade {
     }
 
     /**
-     * @param id
+     * @param id prder id
      * @return
      */
     @Override

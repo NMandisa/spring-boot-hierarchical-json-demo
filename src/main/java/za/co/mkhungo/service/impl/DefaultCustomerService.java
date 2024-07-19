@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import za.co.mkhungo.dto.CustomerDTO;
+import za.co.mkhungo.exception.CustomerException;
 import za.co.mkhungo.exception.CustomerNotFoundException;
 import za.co.mkhungo.facade.CustomerFacade;
 import za.co.mkhungo.helper.PopulateResponseHelper;
@@ -12,7 +13,6 @@ import za.co.mkhungo.response.CustomerResponse;
 import za.co.mkhungo.service.CustomerService;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Noxolo.Mkhungo
@@ -37,7 +37,7 @@ public class DefaultCustomerService implements CustomerService {
         return populateResponseHelper.populateCustomerTree(customers);
     }
     /**
-     * @param id
+     * @param id customer id
      * @return CustomerResponse
      */
     @Override
@@ -49,22 +49,22 @@ public class DefaultCustomerService implements CustomerService {
     }
 
     /**
-     * @param customerDTO
-     * @return
+     * @param customerDTO customer
+     * @return CustomerResponse
      */
     @Override
-    public Long save(CustomerDTO customerDTO) {
-        return 0L;
+    public CustomerResponse save(CustomerDTO customerDTO) {
+        return populateResponseHelper.populateCustomerTree(customerFacade.save(customerDTO));
     }
 
     /**
-     * @param customerDTO
-     * @param id
-     * @return
+     * @param customerDTO customer dto
+     * @param id customer  id
+     * @return CustomerResponse customer response
      */
     @Override
-    public int edit(CustomerDTO customerDTO, Long id) {
-        return 0;
+    public CustomerResponse edit(CustomerDTO customerDTO, Long id) throws CustomerException, CustomerNotFoundException {
+        return populateResponseHelper.populateCustomerTree(customerFacade.edit(customerDTO,id));
     }
 
     /**

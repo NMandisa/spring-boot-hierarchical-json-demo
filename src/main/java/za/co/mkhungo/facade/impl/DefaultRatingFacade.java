@@ -34,7 +34,7 @@ public class DefaultRatingFacade implements RatingFacade {
         List<RatingDTO> ratingDTOS=new ArrayList<>();
         List<Rating> ratings= ratingRepository.findAll();
         ratings.forEach(rating -> {
-            log.info("Rating : " + rating);
+            log.debug("Rating : {} ", rating);
             RatingDTO ratingDTO = MapperUtil.convertRatingModelToDto(rating);
             ratingDTOS.add(ratingDTO);
         });

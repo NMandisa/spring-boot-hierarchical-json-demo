@@ -1,6 +1,7 @@
 package za.co.mkhungo.facade;
 
 import za.co.mkhungo.dto.CustomerDTO;
+import za.co.mkhungo.exception.CustomerException;
 import za.co.mkhungo.exception.CustomerNotFoundException;
 
 import java.util.List;
@@ -11,8 +12,8 @@ import java.util.List;
 public interface CustomerFacade {
     List<CustomerDTO> getAllCustomers();
     CustomerDTO getCustomerById(long id) throws CustomerNotFoundException;
-    Long save(CustomerDTO customer);
-    int edit(CustomerDTO customer,Long id);
+    CustomerDTO save(CustomerDTO customer);
+    CustomerDTO edit(CustomerDTO customer,Long id) throws CustomerException, CustomerNotFoundException;
     int delete(Long id);
 
 }

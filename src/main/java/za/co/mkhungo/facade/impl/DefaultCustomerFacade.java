@@ -1,9 +1,11 @@
 package za.co.mkhungo.facade.impl;
 
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import za.co.mkhungo.dto.CustomerDTO;
+import za.co.mkhungo.exception.CustomerException;
 import za.co.mkhungo.exception.CustomerNotFoundException;
 import za.co.mkhungo.facade.CustomerFacade;
 import za.co.mkhungo.model.Customer;
@@ -33,7 +35,7 @@ public class DefaultCustomerFacade implements CustomerFacade {
         List<CustomerDTO> customerDTOS=new ArrayList<>();
         List<Customer> customers= customerRepository.findAll();
         customers.forEach(customer -> {
-            log.info("Customer : {}", customer);
+            log.debug("Customer : {}", customer);
             CustomerDTO customerDTO = MapperUtil.convertCustomerModelToDto(customer);
             customerDTOS.add(customerDTO);
         });
@@ -42,7 +44,7 @@ public class DefaultCustomerFacade implements CustomerFacade {
 
     /**
      * @param id customer id
-     * @return customer
+     * @return CustomerDTO
      */
     @Override
     public CustomerDTO getCustomerById(long id) throws CustomerNotFoundException {
@@ -51,22 +53,25 @@ public class DefaultCustomerFacade implements CustomerFacade {
     }
 
     /**
-     * @param customerDTO
-     * @return
+     * @param customerDTO customer
+     * @return CustomerDTO
      */
     @Override
-    public Long save(CustomerDTO customerDTO) {
-        return null;
+    public CustomerDTO save(@NonNull CustomerDTO customerDTO) {
+        Customer customer = customerRepository.save(MapperUtil.convertCustomerDtoToModel(customerDTO));
+        return MapperUtil.convertCustomerModelToDto(customer);
     }
 
     /**
-     * @param customerDTO
-     * @param id
-     * @return
+     * @param customerDTO customer dto
+     * @param id customer id
+     * @return CustomerDTO
      */
     @Override
-    public int edit(CustomerDTO customerDTO, Long id) {
-        return 0;
+    public CustomerDTO edit(CustomerDTO customerDTO, Long id) throws CustomerException, CustomerNotFoundException {
+        Customer customer = customerRepository.findById(id).orElseThrow(CustomerNotFoundException::new);
+        customer=customerRepository.save(customer);
+        return MapperUtil.convertCustomerModelToDto(customer);
     }
 
     /**

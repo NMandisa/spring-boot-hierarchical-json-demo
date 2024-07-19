@@ -1,6 +1,7 @@
 package za.co.mkhungo.service;
 
 import za.co.mkhungo.dto.CustomerDTO;
+import za.co.mkhungo.exception.CustomerException;
 import za.co.mkhungo.exception.CustomerNotFoundException;
 import za.co.mkhungo.response.CustomerResponse;
 
@@ -10,7 +11,7 @@ import za.co.mkhungo.response.CustomerResponse;
 public interface CustomerService {
     CustomerResponse getAllCustomers();
     CustomerResponse getCustomerById(Long id) throws CustomerNotFoundException;
-    Long save(CustomerDTO customerDTO);
-    int edit(CustomerDTO customerDTO,Long id);
+    CustomerResponse save(CustomerDTO customerDTO);
+    CustomerResponse edit(CustomerDTO customerDTO,Long id)throws CustomerException,CustomerNotFoundException;
     int delete(Long id);
 }

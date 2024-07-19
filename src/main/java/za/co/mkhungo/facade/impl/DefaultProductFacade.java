@@ -23,14 +23,14 @@ public class DefaultProductFacade implements ProductFacade {
     }
 
     /**
-     * @return
+     * @return List<ProductDTO> product dto list
      */
     @Override
     public List<ProductDTO> getAllProducts() {
         List<ProductDTO> productDTOS=new ArrayList<>();
         List<Product> products= productRepository.findAll();
         products.forEach(product -> {
-            log.info("Product : " + product);
+            log.debug("Product : {} ", product);
             ProductDTO productDTO = MapperUtil.convertProductModelToDto(product);
             productDTOS.add(productDTO);
         });
@@ -38,7 +38,7 @@ public class DefaultProductFacade implements ProductFacade {
     }
 
     /**
-     * @param productDTO
+     * @param productDTO product dto
      * @return
      */
     @Override
@@ -47,8 +47,8 @@ public class DefaultProductFacade implements ProductFacade {
     }
 
     /**
-     * @param productDTO
-     * @param id
+     * @param productDTO product dto
+     * @param id product id
      * @return
      */
     @Override
@@ -57,7 +57,7 @@ public class DefaultProductFacade implements ProductFacade {
     }
 
     /**
-     * @param id
+     * @param id product id
      * @return
      */
     @Override

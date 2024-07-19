@@ -10,6 +10,7 @@ import za.co.mkhungo.response.node.sub.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Noxolo.Mkhungo
@@ -37,8 +38,10 @@ public class PopulateResponseHelper {
     public OrderResponse populateOrderTree(List<OrderDTO> orders) {
         OrderResponse orderResponse = new OrderResponse();
         OrderTree orderTree = new OrderTree();
-        List<OrderSubTree> orderSubTrees = populateOrderSubTrees(orders);
-        orderTree.setOrder(orderSubTrees);
+        if(!Objects.isNull(orders)) {
+            List<OrderSubTree> orderSubTrees = populateOrderSubTrees(orders);
+            orderTree.setOrder(orderSubTrees);
+        }
         orderResponse.setOrders(orderTree);
         return orderResponse;
     }
@@ -139,7 +142,9 @@ public class PopulateResponseHelper {
             customerSubTree.setSurname(customerDTO.getSurname());
             customerSubTree.setFirstName(customerDTO.getFirstName());
             OrderTree orderTree = new OrderTree();
-            orderTree.setOrder(populateOrderSubTrees(customerDTO.getOrders()));
+            if(!Objects.isNull(customerDTO.getOrders())){
+                orderTree.setOrder(populateOrderSubTrees(customerDTO.getOrders()));
+            }
             customerSubTree.setOrders(orderTree);
         return customerSubTree;
     }
