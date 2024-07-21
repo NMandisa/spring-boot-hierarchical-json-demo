@@ -66,9 +66,13 @@ assembling nodes to form a tree and returning the completed tree structure.
 }
 ```
 
-![img.png](img.png)
+![Model/Entity Class Diagram](img.png)
+
+# Database Diagram
 ![db_tables](db_tables.png)
-![application structure uml](app_structure_uml.png)
+
+# Application Class Diagram
+![app_structure_uml.png](app_structure_uml.png)
 
 ## Architecture : Design Pattern
 - Microservice Architecture Design Pattern
