@@ -27,7 +27,7 @@ public class DefaultProductService implements ProductService {
     }
 
     /**
-     * @return
+     * @return ProductResponse
      */
     @Override
     public ProductResponse getAllProducts() {
@@ -36,8 +36,8 @@ public class DefaultProductService implements ProductService {
     }
 
     /**
-     * @param product
-     * @return
+     * @param product product dto
+     * @return ProductResponse
      */
     @Override
     public Long save(ProductDTO product) {
@@ -45,9 +45,9 @@ public class DefaultProductService implements ProductService {
     }
 
     /**
-     * @param product
-     * @param id
-     * @return
+     * @param product product dto
+     * @param id product id
+     * @return ProductResponse
      */
     @Override
     public int edit(ProductDTO product, Long id) {
@@ -55,8 +55,8 @@ public class DefaultProductService implements ProductService {
     }
 
     /**
-     * @param id
-     * @return
+     * @param id product id
+     * @return integer value of row affect
      */
     @Override
     public int delete(Long id) {

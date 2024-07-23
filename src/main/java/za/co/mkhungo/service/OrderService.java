@@ -8,7 +8,7 @@ import za.co.mkhungo.response.OrderResponse;
  */
 public interface OrderService {
     OrderResponse getAllOrders();
-    Long save(OrderDTO orderDTO);
-    int edit(OrderDTO orderDTO,Long id);
+    OrderResponse save(OrderDTO orderDTO);
+    OrderResponse edit(OrderDTO orderDTO,Long id);
     int delete(Long id);
 }

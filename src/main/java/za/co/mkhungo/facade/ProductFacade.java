@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface ProductFacade {
     List<ProductDTO> getAllProducts();
-    Long save(ProductDTO product);
-    int edit(ProductDTO product,Long id);
+    ProductDTO save(ProductDTO product);
+    ProductDTO edit(ProductDTO product,Long id);
     int delete(Long id);
 }

@@ -39,26 +39,26 @@ public class DefaultProductFacade implements ProductFacade {
 
     /**
      * @param productDTO product dto
-     * @return
+     * @return ProductDTO product
      */
     @Override
-    public Long save(ProductDTO productDTO) {
+    public ProductDTO save(ProductDTO productDTO) {
         return null;
     }
 
     /**
      * @param productDTO product dto
      * @param id product id
-     * @return
+     * @return ProductDTO product
      */
     @Override
-    public int edit(ProductDTO productDTO, Long id) {
-        return 0;
+    public ProductDTO edit(ProductDTO productDTO, Long id) {
+        return null;
     }
 
     /**
      * @param id product id
-     * @return
+     * @return integer value of row affect
      */
     @Override
     public int delete(Long id) {

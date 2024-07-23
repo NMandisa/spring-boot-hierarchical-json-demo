@@ -44,17 +44,18 @@ public class DefaultCustomerFacade implements CustomerFacade {
 
     /**
      * @param id customer id
-     * @return CustomerDTO
+     * @return CustomerDTO customer
      */
     @Override
     public CustomerDTO getCustomerById(long id) throws CustomerNotFoundException {
         Customer customer = customerRepository.findById(id).orElseThrow(CustomerNotFoundException::new);
+        log.debug("Customer : {} class {} -->", customer,CustomerFacade.class);
         return MapperUtil.convertCustomerModelToDto(customer);
     }
 
     /**
      * @param customerDTO customer
-     * @return CustomerDTO
+     * @return CustomerDTO customer
      */
     @Override
     public CustomerDTO save(@NonNull CustomerDTO customerDTO) {
@@ -69,14 +70,17 @@ public class DefaultCustomerFacade implements CustomerFacade {
      */
     @Override
     public CustomerDTO edit(CustomerDTO customerDTO, Long id) throws CustomerException, CustomerNotFoundException {
-        Customer customer = customerRepository.findById(id).orElseThrow(CustomerNotFoundException::new);
-        customer=customerRepository.save(customer);
-        return MapperUtil.convertCustomerModelToDto(customer);
+        Customer existingCustomer = customerRepository.findById(id).orElseThrow(CustomerNotFoundException::new);
+        existingCustomer.setFirstName(customerDTO.getFirstName());
+        existingCustomer.setSurname(customerDTO.getSurname());
+        Customer editCustomer=customerRepository.save(existingCustomer);
+        log.debug("Edited Customer : {} class {} -->", editCustomer,CustomerFacade.class);
+        return MapperUtil.convertCustomerModelToDto(editCustomer);
     }
 
     /**
-     * @param id
-     * @return
+     * @param id customer id
+     * @return integer value of row affect
      */
     @Override
     public int delete(Long id) {

@@ -23,7 +23,7 @@ public class DefaultOrderFacade implements OrderFacade {
     }
 
     /**
-     * @return
+     * @return List<OrderDTO> orders
      */
     @Override
     public List<OrderDTO> getAllOrders() {
@@ -38,27 +38,27 @@ public class DefaultOrderFacade implements OrderFacade {
     }
 
     /**
-     * @param orderDTO
-     * @return
+     * @param orderDTO order dto
+     * @return OrderDTO
      */
     @Override
-    public Long save(OrderDTO orderDTO) {
+    public OrderDTO save(OrderDTO orderDTO) {
         return null;
     }
 
     /**
      * @param orderDTO order dto
      * @param id order id
-     * @return
+     * @return OrderDTO
      */
     @Override
-    public int edit(OrderDTO orderDTO, Long id) {
-        return 0;
+    public OrderDTO edit(OrderDTO orderDTO, Long id) {
+        return null;
     }
 
     /**
-     * @param id prder id
-     * @return
+     * @param id order id
+     * @return integer value of row affect
      */
     @Override
     public int delete(Long id) {

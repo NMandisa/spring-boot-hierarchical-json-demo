@@ -68,8 +68,8 @@ public class DefaultCustomerService implements CustomerService {
     }
 
     /**
-     * @param id
-     * @return
+     * @param id customer id
+     * @return integer value of row affects
      */
     @Override
     public int delete(Long id) {

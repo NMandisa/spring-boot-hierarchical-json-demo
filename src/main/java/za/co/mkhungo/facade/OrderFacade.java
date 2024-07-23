@@ -8,7 +8,7 @@ import java.util.List;
  */
 public interface OrderFacade {
     List<OrderDTO> getAllOrders();
-    Long save(OrderDTO order);
-    int edit(OrderDTO order,Long id);
+    OrderDTO save(OrderDTO order);
+    OrderDTO edit(OrderDTO order,Long id);
     int delete(Long id);
 }

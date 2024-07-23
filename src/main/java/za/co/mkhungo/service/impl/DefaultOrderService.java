@@ -27,7 +27,7 @@ public class DefaultOrderService implements OrderService {
     }
 
     /**
-     * @return
+     * @return OrderResponse
      */
     @Override
     public OrderResponse getAllOrders() {
@@ -36,27 +36,27 @@ public class DefaultOrderService implements OrderService {
     }
 
     /**
-     * @param order
-     * @return
+     * @param order order dto
+     * @return OrderResponse
      */
     @Override
-    public Long save(OrderDTO order) {
+    public OrderResponse save(OrderDTO order) {
         return null;
     }
 
     /**
-     * @param order
-     * @param id
-     * @return
+     * @param order order dto
+     * @param id order id
+     * @return OrderResponse
      */
     @Override
-    public int edit(OrderDTO order, Long id) {
-        return 0;
+    public OrderResponse edit(OrderDTO order, Long id) {
+        return null;
     }
 
     /**
-     * @param id
-     * @return
+     * @param id order id
+     * @return integer value of row affect
      */
     @Override
     public int delete(Long id) {
