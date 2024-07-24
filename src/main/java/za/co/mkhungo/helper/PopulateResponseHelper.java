@@ -1,5 +1,6 @@
 package za.co.mkhungo.helper;
 
+import lombok.NonNull;
 import org.springframework.stereotype.Component;
 import za.co.mkhungo.dto.*;
 import za.co.mkhungo.response.CustomerResponse;
@@ -46,6 +47,12 @@ public class PopulateResponseHelper {
         return orderResponse;
     }
 
+    public OrderResponse populateOrderTree(@NonNull OrderDTO order) {
+        return OrderResponse.builder()
+                .orders(OrderTree.builder()
+                        .order(populateOrderSubTree(order)).build()).build();
+    }
+
     public ProductResponse populateProductTree(List<ProductDTO> products) {
         ProductResponse productResponse = new ProductResponse();
         ProductTree productTree = new ProductTree();
@@ -76,6 +83,13 @@ public class PopulateResponseHelper {
             orderSubTree.setProducts(populateProductTree(orderDTO));
         });
         return orderSubTrees;
+    }
+
+    private List<OrderSubTree> populateOrderSubTree(OrderDTO order) {
+        return List.of(OrderSubTree.builder().products(populateProductTree(order))
+                .id(order.getId())
+                .placedOn(order.getPlacedOn())
+                .orderStatus(order.getOrderStatus()).build());
     }
 
     private ProductTree populateProductTree(OrderDTO orderDTO) {

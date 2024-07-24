@@ -8,7 +8,7 @@ import za.co.mkhungo.response.ProductResponse;
  */
 public interface ProductService {
     ProductResponse getAllProducts();
-    Long save(ProductDTO productDTO);
-    int edit(ProductDTO productDTO,Long id);
+    ProductResponse save(ProductDTO productDTO);
+    ProductResponse edit(ProductDTO productDTO,Long id);
     int delete(Long id);
 }

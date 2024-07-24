@@ -1,6 +1,8 @@
 package za.co.mkhungo.facade;
 
 import za.co.mkhungo.dto.ProductDTO;
+import za.co.mkhungo.exception.ProductException;
+import za.co.mkhungo.exception.ProductNotFoundException;
 
 import java.util.List;
 
@@ -9,7 +11,8 @@ import java.util.List;
  */
 public interface ProductFacade {
     List<ProductDTO> getAllProducts();
+    ProductDTO getProductById(Long id) throws ProductNotFoundException;
     ProductDTO save(ProductDTO product);
-    ProductDTO edit(ProductDTO product,Long id);
+    ProductDTO edit(ProductDTO product,Long id) throws ProductNotFoundException, ProductException;
     int delete(Long id);
 }

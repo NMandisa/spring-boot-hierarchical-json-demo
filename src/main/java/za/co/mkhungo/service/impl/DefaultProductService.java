@@ -40,7 +40,7 @@ public class DefaultProductService implements ProductService {
      * @return ProductResponse
      */
     @Override
-    public Long save(ProductDTO product) {
+    public ProductResponse save(ProductDTO product) {
         return null;
     }
 
@@ -50,8 +50,8 @@ public class DefaultProductService implements ProductService {
      * @return ProductResponse
      */
     @Override
-    public int edit(ProductDTO product, Long id) {
-        return 0;
+    public ProductResponse edit(ProductDTO product, Long id) {
+        return null;
     }
 
     /**

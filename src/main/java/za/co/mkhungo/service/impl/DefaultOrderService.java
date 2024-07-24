@@ -5,12 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import za.co.mkhungo.dto.OrderDTO;
+import za.co.mkhungo.exception.OrderNotFoundException;
 import za.co.mkhungo.facade.OrderFacade;
 import za.co.mkhungo.helper.PopulateResponseHelper;
 import za.co.mkhungo.response.OrderResponse;
 import za.co.mkhungo.service.OrderService;
-
-import java.util.List;
 
 /**
  * @author Noxolo.Mkhungo
@@ -31,8 +30,16 @@ public class DefaultOrderService implements OrderService {
      */
     @Override
     public OrderResponse getAllOrders() {
-        List<OrderDTO> orders = orderFacade.getAllOrders();
-        return populateResponseHelper.populateOrderTree(orders);
+        return populateResponseHelper.populateOrderTree(orderFacade.getAllOrders());
+    }
+
+    /**
+     * @param id order id
+     * @return OrderResponse
+     */
+    @Override
+    public OrderResponse getOrderById(Long id) throws OrderNotFoundException {
+        return populateResponseHelper.populateOrderTree(orderFacade.getOrderById(id));
     }
 
     /**

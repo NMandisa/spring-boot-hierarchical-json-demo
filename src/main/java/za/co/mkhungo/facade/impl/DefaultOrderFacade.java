@@ -3,6 +3,7 @@ package za.co.mkhungo.facade.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import za.co.mkhungo.dto.OrderDTO;
+import za.co.mkhungo.exception.OrderNotFoundException;
 import za.co.mkhungo.facade.OrderFacade;
 import za.co.mkhungo.model.Order;
 import za.co.mkhungo.repository.OrderRepository;
@@ -35,6 +36,17 @@ public class DefaultOrderFacade implements OrderFacade {
             orderDTOS.add(orderDTO);
         });
         return orderDTOS;
+    }
+
+    /**
+     * @param id order id
+     * @return OrderDTO order
+     */
+    @Override
+    public OrderDTO getOrderById(Long id) throws OrderNotFoundException {
+        Order order = orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
+        log.debug("Order : {} class {} -->", order, OrderFacade.class);
+        return MapperUtil.convertOrderModelToDto(order);
     }
 
     /**

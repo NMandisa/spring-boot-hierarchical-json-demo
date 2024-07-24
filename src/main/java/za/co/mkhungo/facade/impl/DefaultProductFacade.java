@@ -3,6 +3,7 @@ package za.co.mkhungo.facade.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import za.co.mkhungo.dto.ProductDTO;
+import za.co.mkhungo.exception.ProductNotFoundException;
 import za.co.mkhungo.facade.ProductFacade;
 import za.co.mkhungo.model.Product;
 import za.co.mkhungo.repository.ProductRepository;
@@ -35,6 +36,18 @@ public class DefaultProductFacade implements ProductFacade {
             productDTOS.add(productDTO);
         });
         return productDTOS;
+    }
+
+    /**
+     * @param id product id
+     * @return ProductDTO product dto
+     * @throws ProductNotFoundException
+     */
+    @Override
+    public ProductDTO getProductById(Long id) throws ProductNotFoundException {
+        Product product = productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
+        log.debug("Product : {} class {} -->", product, ProductFacade.class);
+        return MapperUtil.convertProductModelToDto(product);
     }
 
     /**
