@@ -11,7 +11,6 @@ import za.co.mkhungo.response.node.sub.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Noxolo.Mkhungo
@@ -19,147 +18,93 @@ import java.util.Objects;
 @Component
 public class PopulateResponseHelper {
 
-    public CustomerResponse populateCustomerTree(List<CustomerDTO> customers) {
-        CustomerResponse customerResponse = new CustomerResponse();
-        CustomerTree customerTree = new CustomerTree();
-        customerTree.setCustomer(populateCustomerSubTrees(customers));
-        customerResponse.setCustomers(customerTree);
-        return customerResponse;
+    public CustomerResponse populateCustomerTree(@NonNull List<CustomerDTO> customers) {
+        return CustomerResponse.builder()
+                .customers(CustomerTree.builder()
+                        .customer(populateCustomerSubTrees(customers)).build()).build();
     }
-    public CustomerResponse populateCustomerTree(CustomerDTO customer) {
-        CustomerResponse customerResponse = new CustomerResponse();
-        CustomerTree customerTree = new CustomerTree();
-        List<CustomerSubTree> customers = new ArrayList<>();
-        customers.add(populateCustomerSubTree(customer));
-        customerTree.setCustomer(customers);
-        customerResponse.setCustomers(customerTree);
-        return customerResponse;
+    public CustomerResponse populateCustomerTree(@NonNull CustomerDTO customer) {
+        return CustomerResponse.builder()
+                .customers(CustomerTree.builder()
+                        .customer(List.of(populateCustomerSubTree(customer))).build()).build();
     }
-
-    public OrderResponse populateOrderTree(List<OrderDTO> orders) {
-        OrderResponse orderResponse = new OrderResponse();
-        OrderTree orderTree = new OrderTree();
-        if(!Objects.isNull(orders)) {
-            List<OrderSubTree> orderSubTrees = populateOrderSubTrees(orders);
-            orderTree.setOrder(orderSubTrees);
-        }
-        orderResponse.setOrders(orderTree);
-        return orderResponse;
+    public OrderResponse populateOrderTree(@NonNull List<OrderDTO> orders) {
+        return OrderResponse.builder()
+                .orders(OrderTree.builder()
+                        .order(populateOrderSubTrees(orders)).build()).build();
     }
-
     public OrderResponse populateOrderTree(@NonNull OrderDTO order) {
         return OrderResponse.builder()
                 .orders(OrderTree.builder()
                         .order(populateOrderSubTree(order)).build()).build();
     }
-
-    public ProductResponse populateProductTree(List<ProductDTO> products) {
-        ProductResponse productResponse = new ProductResponse();
-        ProductTree productTree = new ProductTree();
+    public ProductResponse populateProductTree(@NonNull List<ProductDTO> products) {
         List<ProductSubTree> productSubTrees = new ArrayList<>();
-        products.forEach(productDTO -> {
-            ProductSubTree productSubTree = new ProductSubTree();
-            productSubTree.setId(productDTO.getId());
-            productSubTree.setName(productDTO.getName());
-            productSubTree.setPrice(productDTO.getPrice());
-            productSubTrees.add(productSubTree);
-            RatingTree ratingTree = new RatingTree();
-            ratingTree.setRating(populateRatingSubTree(productDTO));
-            productSubTree.setRatings(ratingTree);
-        });
-        productTree.setProduct(productSubTrees);
-        productResponse.setProducts(productTree);
-        return productResponse;
-    }
+        products.forEach(productDTO -> productSubTrees.add(ProductSubTree.builder()
+                .id(productDTO.getId())
+                .name(productDTO.getName()).price(productDTO.getPrice())
+                .ratings(RatingTree.builder().rating(populateRatingSubTree(productDTO)).build()).build()));
+        return ProductResponse.builder()
+                .products(ProductTree.builder()
+                .product(productSubTrees).build()).build();
 
-    private List<OrderSubTree> populateOrderSubTrees(List<OrderDTO> orders) {
+    }
+    private List<OrderSubTree> populateOrderSubTrees(@NonNull List<OrderDTO> orders) {
         List<OrderSubTree> orderSubTrees = new ArrayList<>();
-        orders.forEach(orderDTO -> {
-            OrderSubTree orderSubTree = new OrderSubTree();
-            orderSubTree.setId(orderDTO.getId());
-            orderSubTree.setPlacedOn(orderDTO.getPlacedOn());
-            orderSubTree.setOrderStatus(orderDTO.getOrderStatus());
-            orderSubTrees.add(orderSubTree);
-            orderSubTree.setProducts(populateProductTree(orderDTO));
-        });
+        orders.forEach(orderDTO -> orderSubTrees.add(OrderSubTree.builder()
+                .id(orderDTO.getId())
+                .orderStatus(orderDTO.getOrderStatus())
+                .placedOn(orderDTO.getPlacedOn())
+                .products(populateProductTree(orderDTO)).build()));
         return orderSubTrees;
     }
-
-    private List<OrderSubTree> populateOrderSubTree(OrderDTO order) {
+    private List<OrderSubTree> populateOrderSubTree(@NonNull OrderDTO order) {
         return List.of(OrderSubTree.builder().products(populateProductTree(order))
                 .id(order.getId())
                 .placedOn(order.getPlacedOn())
                 .orderStatus(order.getOrderStatus()).build());
     }
-
-    private ProductTree populateProductTree(OrderDTO orderDTO) {
+    private ProductTree populateProductTree(@NonNull OrderDTO orderDTO) {
         List<ProductDTO> productDTOS = orderDTO.getProducts();
-        ProductTree productTree = new ProductTree();
         List<ProductSubTree> productSubTrees = new ArrayList<>();
-        productDTOS.forEach(productDTO -> {
-            ProductSubTree productSubTree = new ProductSubTree();
-            productSubTree.setId(productDTO.getId());
-            productSubTree.setName(productDTO.getName());
-            productSubTree.setPrice(productDTO.getPrice());
-            productSubTrees.add(productSubTree);
-            productTree.setProduct(productSubTrees);
-        });
-        return productTree;
+        productDTOS.forEach(productDTO -> productSubTrees.add(ProductSubTree.builder()
+                .id(productDTO.getId())
+                .name(productDTO.getName())
+                .price(productDTO.getPrice()).build()));
+        return ProductTree.builder().product(productSubTrees).build();
     }
-
-    private List<RatingSubTree> populateRatingSubTree(ProductDTO productDTO) {
+    private List<RatingSubTree> populateRatingSubTree(@NonNull ProductDTO productDTO) {
         List<RatingSubTree> ratingSubTrees = new ArrayList<>();
         List<RatingDTO> ratingDTOs = productDTO.getRatings();
-        ratingDTOs.forEach(ratingDTO -> {
-            RatingSubTree ratingSubTree = new RatingSubTree();
-            ratingSubTree.setId(ratingDTO.getId());
-            ratingSubTree.setRating(ratingDTO.getRate());
-            ratingSubTrees.add(ratingSubTree);
-            ReviewTree reviewTree = new ReviewTree();
-            reviewTree.setReview(populateReviewSubTrees(ratingDTO));
-            ratingSubTree.setReviews(reviewTree);
-        });
+        ratingDTOs.forEach(ratingDTO -> ratingSubTrees.add(RatingSubTree.builder().id(ratingDTO.getId())
+                .rating(ratingDTO.getRate())
+                .reviews(ReviewTree.builder().review(populateReviewSubTrees(ratingDTO)).build())
+                .build()));
         return ratingSubTrees;
     }
-
-    private List<ReviewSubTree> populateReviewSubTrees(RatingDTO ratingDTO){
+    private List<ReviewSubTree> populateReviewSubTrees(@NonNull RatingDTO ratingDTO){
         List<ReviewSubTree> reviewSubTrees = new ArrayList<>();
         List<ReviewDTO> reviewDTOs = ratingDTO.getReviews();
-        reviewDTOs.forEach(reviewDTO -> {
-            ReviewSubTree reviewSubTree = new ReviewSubTree();
-            reviewSubTree.setId(reviewDTO.getId());
-            reviewSubTree.setTagLine(reviewDTO.getTagLine());
-            reviewSubTree.setComment(reviewDTO.getComment());
-            reviewSubTrees.add(reviewSubTree);
-        });
+        reviewDTOs.forEach(reviewDTO -> reviewSubTrees.add(ReviewSubTree.builder().id(reviewDTO.getId())
+                .tagLine(reviewDTO.getTagLine())
+                .comment(reviewDTO.getComment()).build()));
         return reviewSubTrees;
     }
-
-    private List<CustomerSubTree> populateCustomerSubTrees(List<CustomerDTO> customers){
+    private List<CustomerSubTree> populateCustomerSubTrees(@NonNull List<CustomerDTO> customers){
         List<CustomerSubTree> customerSubTrees = new ArrayList<>();
-        customers.forEach(customerDTO -> {
-            CustomerSubTree customerSubTree = new CustomerSubTree();
-            customerSubTree.setId(customerDTO.getId());
-            customerSubTree.setSurname(customerDTO.getSurname());
-            customerSubTree.setFirstName(customerDTO.getFirstName());
-            customerSubTrees.add(customerSubTree);
-            OrderTree orderTree = new OrderTree();
-            orderTree.setOrder(populateOrderSubTrees(customerDTO.getOrders()));
-            customerSubTree.setOrders(orderTree);
-        });
+        customers.forEach(customerDTO -> customerSubTrees.add(CustomerSubTree.builder()
+                .id(customerDTO.getId())
+                .firstName(customerDTO.getFirstName())
+                .surname(customerDTO.getSurname())
+                .orders(OrderTree.builder()
+                        .order(populateOrderSubTrees(customerDTO.getOrders())).build())
+                .build()));
         return customerSubTrees;
     }
-
-    private CustomerSubTree populateCustomerSubTree(CustomerDTO customerDTO){
-            CustomerSubTree customerSubTree = new CustomerSubTree();
-            customerSubTree.setId(customerDTO.getId());
-            customerSubTree.setSurname(customerDTO.getSurname());
-            customerSubTree.setFirstName(customerDTO.getFirstName());
-            OrderTree orderTree = new OrderTree();
-            if(!Objects.isNull(customerDTO.getOrders())){
-                orderTree.setOrder(populateOrderSubTrees(customerDTO.getOrders()));
-            }
-            customerSubTree.setOrders(orderTree);
-        return customerSubTree;
+    private CustomerSubTree populateCustomerSubTree(@NonNull CustomerDTO customerDTO){
+            return CustomerSubTree.builder().id(customerDTO.getId())
+                    .firstName(customerDTO.getFirstName())
+                    .surname(customerDTO.getSurname()).orders(OrderTree.builder()
+                            .order(populateOrderSubTrees(customerDTO.getOrders())).build()).build();
     }
 }
