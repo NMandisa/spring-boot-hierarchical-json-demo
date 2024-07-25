@@ -1,0 +1,52 @@
+CLOSED-SOURCE LICENSE
+
+IMPORTANT: READ CAREFULLY BEFORE USING THE SOFTWARE
+
+This Closed-Source License Agreement ("Agreement") is a legal agreement between Noxolo Mandisa Mkhungo ("Licensor") and you ("Licensee") for the use of source code.
+
+1. GRANT OF LICENSE
+
+Licensor grants Licensee a non-exclusive, non-transferable license to use the Software source code solely for internal purposes. Licensee may not:
+
+- Share, distribute, or sublicense the Software source code to any third party
+- Modify, adapt, or create derivative works of the Software source code
+- Reverse engineer, decompile, or disassemble the Software source code
+- Use the Software source code for any commercial purpose
+
+2. SOURCE CODE RESTRICTIONS
+
+Licensee acknowledges that the Software source code is proprietary and confidential. Licensee agrees not to:
+
+- Disclose or share the Software source code with any third party
+- Use the Software source code to develop competing products or services
+- Remove or alter any copyright, trademark, or proprietary notices
+
+3. OWNERSHIP
+
+Licensor retains all rights, title, and interest in and to the Software source code, including all intellectual property rights.
+
+4. TERMINATION
+
+This Agreement will terminate immediately if Licensee fails to comply with its terms.
+
+5. WARRANTY DISCLAIMER
+
+Software source code is provided "AS IS" without warranty of any kind.
+
+6. LIMITATION OF LIABILITY
+
+In no event will Licensor be liable for any damages, including consequential damages.
+
+7. GOVERNING LAW
+
+This Agreement will be governed by and construed in accordance with the laws of South Africa.
+
+8. AGREEMENT
+
+This Agreement constitutes the entire agreement between parties and supersedes all prior negotiations.
+
+By using the Software source code, Licensee acknowledges that it has read, understands, and agrees to be bound by this Agreement.
+
+Noxolo Mandisa Mkhungo
+
+2024 -

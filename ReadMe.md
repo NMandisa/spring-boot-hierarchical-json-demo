@@ -86,3 +86,6 @@ assembling nodes to form a tree and returning the completed tree structure.
 🔘   MySQL Database <br/>
 🔘   Jackson databind <br/>
 🔘   swagger-ui - API Documentation <br/>
+
+License
+This project is licensed with as CLOSED-SOURCE. See LICENSE file for details.
