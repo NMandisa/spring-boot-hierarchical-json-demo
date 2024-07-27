@@ -9,7 +9,6 @@ import za.co.mkhungo.response.ProductResponse;
 import za.co.mkhungo.response.node.*;
 import za.co.mkhungo.response.node.sub.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,72 +38,49 @@ public class PopulateResponseHelper {
                         .order(populateOrderSubTree(order)).build()).build();
     }
     public ProductResponse populateProductTree(@NonNull List<ProductDTO> products) {
-        List<ProductSubTree> productSubTrees = new ArrayList<>();
-        products.forEach(productDTO -> productSubTrees.add(ProductSubTree.builder()
-                .id(productDTO.getId())
-                .name(productDTO.getName()).price(productDTO.getPrice())
-                .ratings(RatingTree.builder().rating(populateRatingSubTree(productDTO)).build()).build()));
-        return ProductResponse.builder()
-                .products(ProductTree.builder()
-                .product(productSubTrees).build()).build();
-
+        return ProductResponse.builder().products(ProductTree.builder().product(products.stream()
+                .map(productDTO -> ProductSubTree.builder().id(productDTO.getId())
+                        .name(productDTO.getName()).price(productDTO.getPrice()).ratings(
+                                RatingTree.builder().rating(populateRatingSubTree(productDTO)).build())
+                        .build()).toList()).build()).build();
     }
     private List<OrderSubTree> populateOrderSubTrees(@NonNull List<OrderDTO> orders) {
-        List<OrderSubTree> orderSubTrees = new ArrayList<>();
-        orders.forEach(orderDTO -> orderSubTrees.add(OrderSubTree.builder()
-                .id(orderDTO.getId())
-                .orderStatus(orderDTO.getOrderStatus())
-                .placedOn(orderDTO.getPlacedOn())
-                .products(populateProductTree(orderDTO)).build()));
-        return orderSubTrees;
+        return orders.stream().map(orderDTO -> OrderSubTree.builder().id(orderDTO.getId())
+                .orderStatus(orderDTO.getOrderStatus()).placedOn(orderDTO.getPlacedOn())
+                .products(populateProductTree(orderDTO)).build()).toList();
     }
     private List<OrderSubTree> populateOrderSubTree(@NonNull OrderDTO order) {
         return List.of(OrderSubTree.builder().products(populateProductTree(order))
-                .id(order.getId())
-                .placedOn(order.getPlacedOn())
-                .orderStatus(order.getOrderStatus()).build());
+                .id(order.getId()).placedOn(order.getPlacedOn()).orderStatus(order.getOrderStatus()).build());
     }
     private ProductTree populateProductTree(@NonNull OrderDTO orderDTO) {
-        List<ProductDTO> productDTOS = orderDTO.getProducts();
-        List<ProductSubTree> productSubTrees = new ArrayList<>();
-        productDTOS.forEach(productDTO -> productSubTrees.add(ProductSubTree.builder()
-                .id(productDTO.getId())
-                .name(productDTO.getName())
-                .price(productDTO.getPrice()).build()));
-        return ProductTree.builder().product(productSubTrees).build();
+        return ProductTree.builder().product(orderDTO.getProducts().stream()
+                .map(productDTO -> ProductSubTree.builder().id(productDTO.getId()).name(productDTO.getName()).price(productDTO.getPrice())
+                        .build()).toList()).build();
     }
     private List<RatingSubTree> populateRatingSubTree(@NonNull ProductDTO productDTO) {
-        List<RatingSubTree> ratingSubTrees = new ArrayList<>();
         List<RatingDTO> ratingDTOs = productDTO.getRatings();
-        ratingDTOs.forEach(ratingDTO -> ratingSubTrees.add(RatingSubTree.builder().id(ratingDTO.getId())
-                .rating(ratingDTO.getRate())
-                .reviews(ReviewTree.builder().review(populateReviewSubTrees(ratingDTO)).build())
-                .build()));
-        return ratingSubTrees;
+        return ratingDTOs.stream().map(ratingDTO ->
+                        RatingSubTree.builder().id(ratingDTO.getId()).rating(ratingDTO.getRate())
+                                .reviews(ReviewTree.builder().review(populateReviewSubTrees(ratingDTO)).build()).build()).toList();
     }
     private List<ReviewSubTree> populateReviewSubTrees(@NonNull RatingDTO ratingDTO){
-        List<ReviewSubTree> reviewSubTrees = new ArrayList<>();
-        List<ReviewDTO> reviewDTOs = ratingDTO.getReviews();
-        reviewDTOs.forEach(reviewDTO -> reviewSubTrees.add(ReviewSubTree.builder().id(reviewDTO.getId())
-                .tagLine(reviewDTO.getTagLine())
-                .comment(reviewDTO.getComment()).build()));
-        return reviewSubTrees;
+        List <ReviewDTO> reviewDTOS = ratingDTO.getReviews();
+        return reviewDTOS.stream().map(reviewDTO -> ReviewSubTree.builder()
+                        .id(reviewDTO.getId())
+                        .tagLine(reviewDTO.getTagLine())
+                        .comment(reviewDTO.getComment())
+                        .build()).toList();
     }
     private List<CustomerSubTree> populateCustomerSubTrees(@NonNull List<CustomerDTO> customers){
-        List<CustomerSubTree> customerSubTrees = new ArrayList<>();
-        customers.forEach(customerDTO -> customerSubTrees.add(CustomerSubTree.builder()
-                .id(customerDTO.getId())
-                .firstName(customerDTO.getFirstName())
-                .surname(customerDTO.getSurname())
-                .orders(OrderTree.builder()
-                        .order(populateOrderSubTrees(customerDTO.getOrders())).build())
-                .build()));
-        return customerSubTrees;
+        return customers.stream().map(customerDTO -> CustomerSubTree.builder()
+                        .id(customerDTO.getId()).firstName(customerDTO.getFirstName())
+                        .surname(customerDTO.getSurname()).orders(OrderTree.builder()
+                                .order(populateOrderSubTrees(customerDTO.getOrders())).build()).build()).toList();
     }
     private CustomerSubTree populateCustomerSubTree(@NonNull CustomerDTO customerDTO){
             return CustomerSubTree.builder().id(customerDTO.getId())
-                    .firstName(customerDTO.getFirstName())
-                    .surname(customerDTO.getSurname()).orders(OrderTree.builder()
+                    .firstName(customerDTO.getFirstName()).surname(customerDTO.getSurname()).orders(OrderTree.builder()
                             .order(populateOrderSubTrees(customerDTO.getOrders())).build()).build();
     }
 }
