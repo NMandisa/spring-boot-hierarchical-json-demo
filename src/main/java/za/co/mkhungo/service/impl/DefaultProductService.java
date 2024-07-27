@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import za.co.mkhungo.dto.ProductDTO;
+import za.co.mkhungo.exception.ProductNotFoundException;
 import za.co.mkhungo.facade.ProductFacade;
 import za.co.mkhungo.helper.PopulateResponseHelper;
 import za.co.mkhungo.response.ProductResponse;
@@ -27,7 +28,7 @@ public class DefaultProductService implements ProductService {
     }
 
     /**
-     * @return ProductResponse
+     * @return ProductResponse product response
      */
     @Override
     public ProductResponse getAllProducts() {
@@ -36,8 +37,18 @@ public class DefaultProductService implements ProductService {
     }
 
     /**
+     * @param id product id
+     * @return ProductResponse product response
+     * @throws ProductNotFoundException Product Not Found
+     */
+    @Override
+    public ProductResponse getProductById(long id) throws ProductNotFoundException {
+        return populateResponseHelper.populateProductTree(productFacade.getProductById(id));
+    }
+
+    /**
      * @param product product dto
-     * @return ProductResponse
+     * @return ProductResponse product response
      */
     @Override
     public ProductResponse save(ProductDTO product) {
@@ -47,7 +58,7 @@ public class DefaultProductService implements ProductService {
     /**
      * @param product product dto
      * @param id product id
-     * @return ProductResponse
+     * @return ProductResponse product response
      */
     @Override
     public ProductResponse edit(ProductDTO product, Long id) {

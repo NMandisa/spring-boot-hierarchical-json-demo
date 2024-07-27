@@ -44,6 +44,10 @@ public class PopulateResponseHelper {
                                 RatingTree.builder().rating(populateRatingSubTree(productDTO)).build())
                         .build()).toList()).build()).build();
     }
+    public ProductResponse populateProductTree(@NonNull ProductDTO product) {
+        return ProductResponse.builder().products(ProductTree.builder()
+                .product(populateProductSubTrees(product)).build()).build();
+    }
     private List<OrderSubTree> populateOrderSubTrees(@NonNull List<OrderDTO> orders) {
         return orders.stream().map(orderDTO -> OrderSubTree.builder().id(orderDTO.getId())
                 .orderStatus(orderDTO.getOrderStatus()).placedOn(orderDTO.getPlacedOn())
@@ -58,19 +62,22 @@ public class PopulateResponseHelper {
                 .map(productDTO -> ProductSubTree.builder().id(productDTO.getId()).name(productDTO.getName()).price(productDTO.getPrice())
                         .build()).toList()).build();
     }
+    private List<ProductSubTree> populateProductSubTrees(@NonNull ProductDTO productDTO) {
+         return List.of((ProductSubTree.builder().id(productDTO.getId())
+                .name(productDTO.getName()).price(productDTO.getPrice()).ratings(populateRatingTree(productDTO)).build()));
+    }
     private List<RatingSubTree> populateRatingSubTree(@NonNull ProductDTO productDTO) {
-        List<RatingDTO> ratingDTOs = productDTO.getRatings();
-        return ratingDTOs.stream().map(ratingDTO ->
+        return productDTO.getRatings().stream().map(ratingDTO ->
                         RatingSubTree.builder().id(ratingDTO.getId()).rating(ratingDTO.getRate())
                                 .reviews(ReviewTree.builder().review(populateReviewSubTrees(ratingDTO)).build()).build()).toList();
     }
+    private RatingTree populateRatingTree(@NonNull ProductDTO productDTO) {
+        return RatingTree.builder().rating(populateRatingSubTree(productDTO)).build();
+    }
     private List<ReviewSubTree> populateReviewSubTrees(@NonNull RatingDTO ratingDTO){
-        List <ReviewDTO> reviewDTOS = ratingDTO.getReviews();
-        return reviewDTOS.stream().map(reviewDTO -> ReviewSubTree.builder()
-                        .id(reviewDTO.getId())
-                        .tagLine(reviewDTO.getTagLine())
-                        .comment(reviewDTO.getComment())
-                        .build()).toList();
+        return ratingDTO.getReviews().stream().map(reviewDTO -> ReviewSubTree.builder()
+                        .id(reviewDTO.getId()).tagLine(reviewDTO.getTagLine())
+                        .comment(reviewDTO.getComment()).build()).toList();
     }
     private List<CustomerSubTree> populateCustomerSubTrees(@NonNull List<CustomerDTO> customers){
         return customers.stream().map(customerDTO -> CustomerSubTree.builder()

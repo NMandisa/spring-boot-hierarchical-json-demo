@@ -24,24 +24,19 @@ public class DefaultProductFacade implements ProductFacade {
     }
 
     /**
-     * @return List<ProductDTO> product dto list
+     * @return List product data transfer object
      */
     @Override
     public List<ProductDTO> getAllProducts() {
-        List<ProductDTO> productDTOS=new ArrayList<>();
-        List<Product> products= productRepository.findAll();
-        products.forEach(product -> {
-            log.debug("Product : {} ", product);
-            ProductDTO productDTO = MapperUtil.convertProductModelToDto(product);
-            productDTOS.add(productDTO);
-        });
-        return productDTOS;
+        return productRepository.findAll().stream()
+                .peek(product -> log.debug("Product : {} ", product))
+                .map(MapperUtil::convertProductModelToDto).toList();
     }
 
     /**
      * @param id product id
-     * @return ProductDTO product dto
-     * @throws ProductNotFoundException
+     * @return ProductDTO product data transfer object
+     * @throws ProductNotFoundException product not found exception
      */
     @Override
     public ProductDTO getProductById(Long id) throws ProductNotFoundException {
@@ -51,8 +46,8 @@ public class DefaultProductFacade implements ProductFacade {
     }
 
     /**
-     * @param productDTO product dto
-     * @return ProductDTO product
+     * @param productDTO product data transfer object
+     * @return ProductDTO product data transfer object
      */
     @Override
     public ProductDTO save(ProductDTO productDTO) {
@@ -60,9 +55,9 @@ public class DefaultProductFacade implements ProductFacade {
     }
 
     /**
-     * @param productDTO product dto
+     * @param productDTO product data transfer object
      * @param id product id
-     * @return ProductDTO product
+     * @return ProductDTO product data transfer object
      */
     @Override
     public ProductDTO edit(ProductDTO productDTO, Long id) {
@@ -71,7 +66,7 @@ public class DefaultProductFacade implements ProductFacade {
 
     /**
      * @param id product id
-     * @return integer value of row affect
+     * @return Integer value of row affect
      */
     @Override
     public int delete(Long id) {
