@@ -15,6 +15,6 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderTree {
+public class OrderTree{
     private List<OrderSubTree> order=new ArrayList<>();
 }

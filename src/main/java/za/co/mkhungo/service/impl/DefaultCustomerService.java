@@ -12,8 +12,6 @@ import za.co.mkhungo.helper.PopulateResponseHelper;
 import za.co.mkhungo.response.CustomerResponse;
 import za.co.mkhungo.service.CustomerService;
 
-import java.util.List;
-
 /**
  * @author Noxolo.Mkhungo
  */
@@ -29,28 +27,24 @@ public class DefaultCustomerService implements CustomerService {
     }
 
     /**
-     * @return CustomerResponse
+     * @return CustomerResponse customer response
      */
     @Override
     public CustomerResponse getAllCustomers() {
-        List<CustomerDTO> customers=customerFacade.getAllCustomers();
-        return populateResponseHelper.populateCustomerTree(customers);
+        return populateResponseHelper.populateCustomerTree(customerFacade.getAllCustomers());
     }
     /**
      * @param id customer id
-     * @return CustomerResponse
+     * @return CustomerResponse customer response
      */
     @Override
     public CustomerResponse getCustomerById(Long id) throws CustomerNotFoundException {
-        CustomerDTO customer=customerFacade.getCustomerById(id);
-        CustomerResponse customerResponse=populateResponseHelper.populateCustomerTree(customer);
-        log.debug("Customer Response{}",customerResponse);
-        return customerResponse;
+        return populateResponseHelper.populateCustomerTree(customerFacade.getCustomerById(id));
     }
 
     /**
-     * @param customerDTO customer
-     * @return CustomerResponse
+     * @param customerDTO customer data transfer object
+     * @return CustomerResponse customer response
      */
     @Override
     public CustomerResponse save(CustomerDTO customerDTO) {
@@ -58,7 +52,7 @@ public class DefaultCustomerService implements CustomerService {
     }
 
     /**
-     * @param customerDTO customer dto
+     * @param customerDTO customer data transfer object
      * @param id customer  id
      * @return CustomerResponse customer response
      */

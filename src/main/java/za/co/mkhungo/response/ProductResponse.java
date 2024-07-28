@@ -12,6 +12,6 @@ import za.co.mkhungo.response.node.ProductTree;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductResponse {
+public class ProductResponse{
     private ProductTree products;
 }

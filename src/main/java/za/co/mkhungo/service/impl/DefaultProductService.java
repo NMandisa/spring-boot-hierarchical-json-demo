@@ -11,8 +11,6 @@ import za.co.mkhungo.helper.PopulateResponseHelper;
 import za.co.mkhungo.response.ProductResponse;
 import za.co.mkhungo.service.ProductService;
 
-import java.util.List;
-
 /**
  * @author Noxolo.Mkhungo
  */
@@ -32,8 +30,7 @@ public class DefaultProductService implements ProductService {
      */
     @Override
     public ProductResponse getAllProducts() {
-        List<ProductDTO> products= productFacade.getAllProducts();
-        return populateResponseHelper.populateProductTree(products);
+        return populateResponseHelper.populateProductTree(productFacade.getAllProducts());
     }
 
     /**

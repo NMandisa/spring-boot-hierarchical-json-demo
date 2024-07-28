@@ -12,7 +12,6 @@ import za.co.mkhungo.model.Customer;
 import za.co.mkhungo.repository.CustomerRepository;
 import za.co.mkhungo.utils.MapperUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,14 +31,9 @@ public class DefaultCustomerFacade implements CustomerFacade {
      */
     @Override
     public List<CustomerDTO> getAllCustomers() {
-        List<CustomerDTO> customerDTOS=new ArrayList<>();
-        List<Customer> customers= customerRepository.findAll();
-        customers.forEach(customer -> {
-            log.debug("Customer : {}", customer);
-            CustomerDTO customerDTO = MapperUtil.convertCustomerModelToDto(customer);
-            customerDTOS.add(customerDTO);
-        });
-        return customerDTOS;
+        return customerRepository.findAll().stream()
+                .peek(customer -> log.debug("Customer : {}", customer))
+                .map(MapperUtil::convertCustomerModelToDto).toList();
     }
 
     /**
@@ -59,8 +53,7 @@ public class DefaultCustomerFacade implements CustomerFacade {
      */
     @Override
     public CustomerDTO save(@NonNull CustomerDTO customerDTO) {
-        Customer customer = customerRepository.save(MapperUtil.convertCustomerDtoToModel(customerDTO));
-        return MapperUtil.convertCustomerModelToDto(customer);
+        return MapperUtil.convertCustomerModelToDto(customerRepository.save(MapperUtil.convertCustomerDtoToModel(customerDTO)));
     }
 
     /**
@@ -70,11 +63,13 @@ public class DefaultCustomerFacade implements CustomerFacade {
      */
     @Override
     public CustomerDTO edit(CustomerDTO customerDTO, Long id) throws CustomerException, CustomerNotFoundException {
-        Customer existingCustomer = customerRepository.findById(id).orElseThrow(CustomerNotFoundException::new);
-        existingCustomer.setFirstName(customerDTO.getFirstName());
-        existingCustomer.setSurname(customerDTO.getSurname());
-        Customer editCustomer=customerRepository.save(existingCustomer);
-        log.debug("Edited Customer : {} class {} -->", editCustomer,CustomerFacade.class);
+        Customer editCustomer = customerRepository.findById(id)
+                .map(existingCustomer -> {
+                    existingCustomer.setFirstName(customerDTO.getFirstName());
+                    existingCustomer.setSurname(customerDTO.getSurname());
+                    return customerRepository.save(existingCustomer);
+                }).orElseThrow(CustomerNotFoundException::new);
+        log.debug("Edited Customer : {} class {} -->", editCustomer, CustomerFacade.class);
         return MapperUtil.convertCustomerModelToDto(editCustomer);
     }
 

@@ -15,6 +15,6 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReviewTree {
+public class ReviewTree{
     private List<ReviewSubTree> review = new ArrayList<>();
 }

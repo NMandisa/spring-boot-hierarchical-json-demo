@@ -9,7 +9,6 @@ import za.co.mkhungo.model.Order;
 import za.co.mkhungo.repository.OrderRepository;
 import za.co.mkhungo.utils.MapperUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,14 +27,9 @@ public class DefaultOrderFacade implements OrderFacade {
      */
     @Override
     public List<OrderDTO> getAllOrders() {
-        List<OrderDTO> orderDTOS=new ArrayList<>();
-        List<Order> orders= orderRepository.findAll();
-        orders.forEach(order -> {
-            log.debug("Order : {}", order);
-            OrderDTO orderDTO = MapperUtil.convertOrderModelToDto(order);
-            orderDTOS.add(orderDTO);
-        });
-        return orderDTOS;
+        return orderRepository.findAll().stream()
+                .peek(order -> log.debug("Order : {}", order))
+                .map(MapperUtil::convertOrderModelToDto).toList();
     }
 
     /**

@@ -12,6 +12,6 @@ import za.co.mkhungo.response.node.OrderTree;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderResponse {
+public class OrderResponse{
     private OrderTree orders;
 }

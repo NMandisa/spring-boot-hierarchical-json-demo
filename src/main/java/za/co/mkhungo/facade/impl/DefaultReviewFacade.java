@@ -26,37 +26,32 @@ public class DefaultReviewFacade implements ReviewFacade {
     }
 
     /**
-     * @return
+     * @return List ReviewDTO review data transfer objects
      */
     @Override
     public List<ReviewDTO> getAllReviews() {
-        List<ReviewDTO> reviewDTOS=new ArrayList<>();
-        List<Review> reviews= reviewRepository.findAll();
-        reviews.forEach(review -> {
-            log.debug("Review : {}", review);
-            ReviewDTO reviewDTO = MapperUtil.convertReviewModelToDto(review);
-            reviewDTOS.add(reviewDTO);
-        });
-        return reviewDTOS;
+        return reviewRepository.findAll().stream()
+                .peek(review -> log.debug("Review : {}", review))
+                .map(MapperUtil::convertReviewModelToDto).toList();
     }
 
     /**
      * @param reviewDTO
-     * @return
+     * @return ReviewDTO
      */
     @Override
-    public Long save(ReviewDTO reviewDTO) {
+    public ReviewDTO save(ReviewDTO reviewDTO) {
         return null;
     }
 
     /**
      * @param reviewDTO
      * @param id
-     * @return
+     * @return ReviewDTO
      */
     @Override
-    public int edit(ReviewDTO reviewDTO, Long id) {
-        return 0;
+    public ReviewDTO edit(ReviewDTO reviewDTO, Long id) {
+        return null;
     }
 
     /**

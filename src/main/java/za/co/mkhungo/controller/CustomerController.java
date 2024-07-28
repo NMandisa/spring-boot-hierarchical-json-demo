@@ -47,7 +47,14 @@ public class CustomerController {
             }
     )
     @GetMapping("/")
-    public ResponseEntity<CustomerResponse>getCustomers(){
+    public ResponseEntity<CustomerResponse> getCustomers(){
+       /* var customersResp = customerService.getAllCustomers().getCustomers().getCustomer().stream()
+                .map(customer -> {
+                    try {
+                        return customer.add( linkTo(methodOn(this.getClass()).getCustomer(customer.getId())).withSelfRel());
+                    } catch (CustomerNotFoundException e) {
+                        throw new CustomerException(e.getMessage());
+                    }}).toList();*/
         return ResponseEntity.ok(customerService.getAllCustomers());
     }
 
@@ -103,8 +110,7 @@ public class CustomerController {
     @PostMapping(value = "/",consumes = "application/json")
     public ResponseEntity<CustomerResponse> saveCustomer(@RequestBody CustomerValueObject customerValueObject){
         return ResponseEntity.accepted().body(customerService.save(CustomerDTO.builder()
-                        .firstName(customerValueObject.getFirstName())
-                        .surname(customerValueObject.getSurname()).build()));
+                        .firstName(customerValueObject.getFirstName()).surname(customerValueObject.getSurname()).build()));
     }
 
     @Operation(
@@ -128,8 +134,7 @@ public class CustomerController {
     @PatchMapping("/{id}")
     public ResponseEntity<CustomerResponse> editCustomer(@RequestBody CustomerValueObject customerValueObject, @PathVariable("id") Long id) throws CustomerException, CustomerNotFoundException {
         return ResponseEntity.accepted().body(customerService.edit(CustomerDTO.builder()
-                .firstName(customerValueObject.getFirstName())
-                .surname(customerValueObject.getSurname()).build(),id));
+                .firstName(customerValueObject.getFirstName()).surname(customerValueObject.getSurname()).build(),id));
     }
 
 }

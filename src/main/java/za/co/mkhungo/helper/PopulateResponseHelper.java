@@ -58,9 +58,9 @@ public class PopulateResponseHelper {
                 .id(order.getId()).placedOn(order.getPlacedOn()).orderStatus(order.getOrderStatus()).build());
     }
     private ProductTree populateProductTree(@NonNull OrderDTO orderDTO) {
-        return ProductTree.builder().product(orderDTO.getProducts().stream()
-                .map(productDTO -> ProductSubTree.builder().id(productDTO.getId()).name(productDTO.getName()).price(productDTO.getPrice())
-                        .build()).toList()).build();
+        return ProductTree.builder().product(orderDTO.getProducts().stream().map(productDTO ->
+                ProductSubTree.builder().id(productDTO.getId()).name(productDTO.getName()).price(productDTO.getPrice())
+                        .ratings(RatingTree.builder().rating(populateRatingSubTree(productDTO)).build()).build()).toList()).build();
     }
     private List<ProductSubTree> populateProductSubTrees(@NonNull ProductDTO productDTO) {
          return List.of((ProductSubTree.builder().id(productDTO.getId())
@@ -80,7 +80,8 @@ public class PopulateResponseHelper {
                         .comment(reviewDTO.getComment()).build()).toList();
     }
     private List<CustomerSubTree> populateCustomerSubTrees(@NonNull List<CustomerDTO> customers){
-        return customers.stream().map(customerDTO -> CustomerSubTree.builder()
+        return customers.stream().map(customerDTO ->
+                CustomerSubTree.builder()
                         .id(customerDTO.getId()).firstName(customerDTO.getFirstName())
                         .surname(customerDTO.getSurname()).orders(OrderTree.builder()
                                 .order(populateOrderSubTrees(customerDTO.getOrders())).build()).build()).toList();

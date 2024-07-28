@@ -9,7 +9,6 @@ import za.co.mkhungo.model.Product;
 import za.co.mkhungo.repository.ProductRepository;
 import za.co.mkhungo.utils.MapperUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

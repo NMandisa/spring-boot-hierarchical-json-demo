@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface RatingFacade {
     List<RatingDTO> getAllRatings();
-    Long save(RatingDTO rating);
-    int edit(RatingDTO rating,Long id);
+    RatingDTO save(RatingDTO rating);
+    RatingDTO edit(RatingDTO rating,Long id);
     int delete(Long id);
 }
