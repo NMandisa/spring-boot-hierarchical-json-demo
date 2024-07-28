@@ -1,5 +1,6 @@
 package za.co.mkhungo.service.impl;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -46,6 +47,7 @@ public class DefaultCustomerService implements CustomerService {
      * @param customerDTO customer data transfer object
      * @return CustomerResponse customer response
      */
+    @SneakyThrows
     @Override
     public CustomerResponse save(CustomerDTO customerDTO) {
         return populateResponseHelper.populateCustomerTree(customerFacade.save(customerDTO));

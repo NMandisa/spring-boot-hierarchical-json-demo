@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @author Noxolo.Mkhungo
  */
-public class ProductException extends Exception implements Serializable {
+public class ProductException extends RuntimeException implements Serializable {
     public ProductException(String message) {
         super( message);
     }

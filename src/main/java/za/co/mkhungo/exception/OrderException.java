@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @author Noxolo.Mkhungo
  */
-public class OrderException extends Exception implements Serializable {
+public class OrderException extends RuntimeException implements Serializable {
     public OrderException(String message) {
         super( message);
     }

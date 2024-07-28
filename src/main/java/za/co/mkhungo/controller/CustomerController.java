@@ -48,13 +48,6 @@ public class CustomerController {
     )
     @GetMapping("/")
     public ResponseEntity<CustomerResponse> getCustomers(){
-       /* var customersResp = customerService.getAllCustomers().getCustomers().getCustomer().stream()
-                .map(customer -> {
-                    try {
-                        return customer.add( linkTo(methodOn(this.getClass()).getCustomer(customer.getId())).withSelfRel());
-                    } catch (CustomerNotFoundException e) {
-                        throw new CustomerException(e.getMessage());
-                    }}).toList();*/
         return ResponseEntity.ok(customerService.getAllCustomers());
     }
 

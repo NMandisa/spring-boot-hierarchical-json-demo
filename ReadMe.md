@@ -8,60 +8,80 @@ assembling nodes to form a tree and returning the completed tree structure.
  Hierarchical / Node Tree Model JSON
 ```
 {
-	"customers": {
-		"customer": [
+	"products": {
+		"product": [
 			{
-				"id": 200,
-				"firstName": "Noxolo",
-				"surname": "Mkhungo",
-				"orders": {
-					"order": [
+				"id": 100,
+				"name": "Chocolate bar",
+				"price": 43.99,
+				"ratings": {
+					"rating": [
 						{
-							"id": 500,
-							"placedOn": "2024-07-14T23:20:28.113748",
-							"orderStatus": "PACKAGED",
-							"products": {
-								"product": [
+							"id": 300,
+							"rating": 4,
+							"reviews": {
+								"review": [
 									{
-										"id": 100,
-										"name": "Chocolate bar",
-										"price": 43.99
-									},
-									{
-										"id": 101,
-										"name": "Still Water",
-										"price": 75.22
+										"id": 400,
+										"tagLine": "Exceeded my expectations",
+										"comment": "I loved the product",
+										"links": []
 									}
 								]
-							}
+							},
+							"links": []
 						}
 					]
-				}
+				},
+				"links": [
+					{
+						"rel": "self",
+						"href": "http://localhost:8080/products/100"
+					},
+					{
+						"rel": "products",
+						"href": "http://localhost:8080/products/"
+					}
+				]
 			},
 			{
-				"id": 201,
-				"firstName": "Mandisa",
-				"surname": "Sodi",
-				"orders": {
-					"order": [
-						{
-							"id": 501,
-							"placedOn": "2024-07-14T23:20:28.128708",
-							"orderStatus": "SHIPPED",
-							"products": {
-								"product": [
-									{
-										"id": 102,
-										"name": "Cool Drink",
-										"price": 15.22
-									}
-								]
-							}
-						}
-					]
-				}
+				"id": 101,
+				"name": "Still Water",
+				"price": 75.22,
+				"ratings": {
+					"rating": []
+				},
+				"links": [
+					{
+						"rel": "self",
+						"href": "http://localhost:8080/products/101"
+					},
+					{
+						"rel": "products",
+						"href": "http://localhost:8080/products/"
+					}
+				]
+			},
+			{
+				"id": 102,
+				"name": "Cool Drink",
+				"price": 15.22,
+				"ratings": {
+					"rating": []
+				},
+				"links": [
+					{
+						"rel": "self",
+						"href": "http://localhost:8080/products/102"
+					},
+					{
+						"rel": "products",
+						"href": "http://localhost:8080/products/"
+					}
+				]
 			}
-		]
+		],
+		"links": []
 	}
 }
 ```
