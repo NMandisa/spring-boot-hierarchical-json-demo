@@ -44,21 +44,10 @@ public class PopulateResponseHelper {
                 .orders(OrderTree.builder()
                         .order(populateOrderSubTree(order)).build()).build();
     }
-    public ProductResponse populateProductTree(@NonNull List<ProductDTO> products) {
-        return ProductResponse.builder().products(ProductTree.builder().product(products.stream()
-                .map(productDTO -> {
-                    try {
-                        return ProductSubTree.builder().id(productDTO.getId())
-                                .name(productDTO.getName()).price(productDTO.getPrice()).ratings(
-                                        RatingTree.builder().rating(populateRatingSubTree(productDTO)).build())
-                                .build().add(linkTo(methodOn(ProductController.class).getProductById(productDTO.getId())).withSelfRel(),
-                                        linkTo(methodOn(ProductController.class).getProducts()).withRel("products"));
-                    } catch (ProductNotFoundException e) {
-                        throw new ProductException(e.getMessage());
-                    }
-                }).toList()).build()).build();
+    public ProductResponse populateProductResponse(@NonNull List<ProductDTO> products) {
+        return ProductResponse.builder().products(populateProductTree(products)).build();
     }
-    public ProductResponse populateProductTree(@NonNull ProductDTO product) throws ProductNotFoundException {
+    public ProductResponse populateProductResponse(@NonNull ProductDTO product) throws ProductNotFoundException {
         return ProductResponse.builder().products(ProductTree.builder()
                 .product(populateProductSubTrees(product)).build()).build();
     }
@@ -67,7 +56,7 @@ public class PopulateResponseHelper {
                             try {
                                 return OrderSubTree.builder().id(orderDTO.getId())
                                         .orderStatus(orderDTO.getOrderStatus()).placedOn(orderDTO.getPlacedOn())
-                                        .products(populateProductTree(orderDTO)).build()
+                                        .products(populateProductTree(orderDTO.getProducts())).build()
                                         .add(linkTo(methodOn(OrderController.class).getOrderById(orderDTO.getId())).withSelfRel(),
                                                 linkTo(methodOn(OrderController.class).getOrders()).withRel("orders"));
                             } catch (OrderNotFoundException e) {
@@ -76,13 +65,13 @@ public class PopulateResponseHelper {
                         }).toList();
     }
     private List<OrderSubTree> populateOrderSubTree(@NonNull OrderDTO order) throws OrderNotFoundException {
-        return List.of(OrderSubTree.builder().products(populateProductTree(order))
+        return List.of(OrderSubTree.builder().products(populateProductTree(order.getProducts()))
                 .id(order.getId()).placedOn(order.getPlacedOn()).orderStatus(order.getOrderStatus()).build()
                 .add(linkTo(methodOn(OrderController.class).getOrderById(order.getId())).withSelfRel(),
                         linkTo(methodOn(OrderController.class).getOrders()).withRel("orders")));
     }
-    private ProductTree populateProductTree(@NonNull OrderDTO orderDTO) {
-        return ProductTree.builder().product(orderDTO.getProducts().stream().map(productDTO ->
+    private ProductTree populateProductTree(@NonNull List<ProductDTO> products) {
+        return ProductTree.builder().product(products.stream().map(productDTO ->
                 {
                     try {
                         return ProductSubTree.builder().id(productDTO.getId()).name(productDTO.getName()).price(productDTO.getPrice())

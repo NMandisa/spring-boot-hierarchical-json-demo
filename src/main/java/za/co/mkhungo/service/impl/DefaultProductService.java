@@ -30,7 +30,7 @@ public class DefaultProductService implements ProductService {
      */
     @Override
     public ProductResponse getAllProducts() {
-        return populateResponseHelper.populateProductTree(productFacade.getAllProducts());
+        return populateResponseHelper.populateProductResponse(productFacade.getAllProducts());
     }
 
     /**
@@ -40,7 +40,7 @@ public class DefaultProductService implements ProductService {
      */
     @Override
     public ProductResponse getProductById(long id) throws ProductNotFoundException {
-        return populateResponseHelper.populateProductTree(productFacade.getProductById(id));
+        return populateResponseHelper.populateProductResponse(productFacade.getProductById(id));
     }
 
     /**
