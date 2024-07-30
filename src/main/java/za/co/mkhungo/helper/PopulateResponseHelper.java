@@ -15,6 +15,7 @@ import za.co.mkhungo.response.node.*;
 import za.co.mkhungo.response.node.sub.*;
 
 import java.util.List;
+import java.util.Objects;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -26,37 +27,61 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Component
 public class PopulateResponseHelper {
 
-    public CustomerResponse populateCustomerResponse(@NonNull List<CustomerDTO> customers) {
+    public CustomerResponse populateCustomerResponse(List<CustomerDTO> customers) {
+        if(Objects.isNull(customers)) {
+            return CustomerResponse.builder().build();
+        }
         return CustomerResponse.builder()
                 .customers(CustomerTree.builder()
                         .customer(populateCustomerSubTrees(customers)).build()).build();
     }
-    public CustomerResponse populateCustomerResponse(@NonNull CustomerDTO customer) throws CustomerNotFoundException {
+    public CustomerResponse populateCustomerResponse(CustomerDTO customer) throws CustomerNotFoundException {
+        if(Objects.isNull(customer)) {
+            return CustomerResponse.builder().build();
+        }
         return CustomerResponse.builder()
                 .customers(CustomerTree.builder()
                         .customer(List.of(populateCustomerSubTree(customer))).build()).build();
     }
-    public OrderResponse populateOrderResponse(@NonNull List<OrderDTO> orders) {
+    public OrderResponse populateOrderResponse(List<OrderDTO> orders) {
+        if(Objects.isNull(orders)) {
+            return OrderResponse.builder().build();
+        }
         return OrderResponse.builder()
                 .orders(OrderTree.builder()
                         .order(populateOrderSubTrees(orders)).build()).build();
     }
-    public OrderResponse populateOrderResponse(@NonNull OrderDTO order) throws OrderNotFoundException {
+    public OrderResponse populateOrderResponse(OrderDTO order) throws OrderNotFoundException {
+        if(Objects.isNull(order)) {
+            return OrderResponse.builder().build();
+        }
         return OrderResponse.builder()
                 .orders(OrderTree.builder()
                         .order(populateOrderSubTree(order)).build()).build();
     }
-    public ProductResponse populateProductResponse(@NonNull List<ProductDTO> products) {
+    public ProductResponse populateProductResponse(List<ProductDTO> products) {
+        if(Objects.isNull(products)) {
+            return ProductResponse.builder().build();
+        }
         return ProductResponse.builder().products(populateProductTree(products)).build();
     }
-    public ProductResponse populateProductResponse(@NonNull ProductDTO product) throws ProductNotFoundException {
+    public ProductResponse populateProductResponse(ProductDTO product) throws ProductNotFoundException {
+        if(Objects.isNull(product)) {
+            return ProductResponse.builder().build();
+        }
         return ProductResponse.builder().products(ProductTree.builder()
                 .product(populateProductSubTrees(product)).build()).build();
     }
-    private List<OrderSubTree> populateOrderSubTrees(@NonNull List<OrderDTO> orders) {
+    private List<OrderSubTree> populateOrderSubTrees(List<OrderDTO> orders) {
+        if(Objects.isNull(orders)) {
+            return List.of();
+        }
         return orders.stream().map(this::mapOrderToSubTree).toList();
     }
     private OrderSubTree mapOrderToSubTree(OrderDTO orderDTO) {
+        if(Objects.isNull(orderDTO)) {
+            return OrderSubTree.builder().build();
+        }
         try {
             return OrderSubTree.builder()
                     .id(orderDTO.getId())
@@ -72,13 +97,16 @@ public class PopulateResponseHelper {
             throw new OrderException(e.getMessage());
         }
     }
-    private List<OrderSubTree> populateOrderSubTree(@NonNull OrderDTO order) throws OrderNotFoundException {
+    private List<OrderSubTree> populateOrderSubTree(OrderDTO order) throws OrderNotFoundException {
         return List.of(OrderSubTree.builder().products(populateProductTree(order.getProducts()))
                 .id(order.getId()).placedOn(order.getPlacedOn()).orderStatus(order.getOrderStatus()).build()
                 .add(linkTo(methodOn(OrderController.class).getOrderById(order.getId())).withSelfRel(),
                         linkTo(methodOn(OrderController.class).getOrders()).withRel("orders")));
     }
-    private ProductTree populateProductTree(@NonNull List<ProductDTO> products) {
+    private ProductTree populateProductTree(List<ProductDTO> products) {
+        if(Objects.isNull(products)) {
+            return ProductTree.builder().build();
+        }
         return ProductTree.builder().product(products.stream().map(productDTO ->
                 {
                     try {

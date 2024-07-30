@@ -64,9 +64,9 @@ public class DefaultCustomerFacade implements CustomerFacade {
      * @return CustomerDTO savedCustomer
      */
     @Override
-    public CustomerDTO save(@NonNull CustomerDTO customerDTO) {
-        if(customerDTO.getId()==null) {
-            throw new IllegalArgumentException("CustomerDTO cannot be null");
+    public CustomerDTO save(CustomerDTO customerDTO) {
+        if(Objects.isNull(customerDTO)) {
+            throw new CustomerException("CustomerDTO cannot be null");
         }
         log.debug("Saving Customer : {}", customerDTO);
         Customer savedCustomer = customerRepository.save(MapperUtil.convertCustomerDtoToModel(customerDTO));
@@ -81,8 +81,8 @@ public class DefaultCustomerFacade implements CustomerFacade {
     @Transactional
     @Override
     public CustomerDTO edit(CustomerDTO customerDTO, Long id) throws CustomerException, CustomerNotFoundException {
-        if(customerDTO==null) {
-            throw new IllegalArgumentException("CustomerDTO cannot be null");
+        if(Objects.isNull(customerDTO) || Objects.isNull(id)) {
+            throw new CustomerException("CustomerDTO cannot be null");
         }
         Customer editCustomer = customerRepository.findById(id)
                 .map(existingCustomer -> {

@@ -33,11 +33,11 @@ class PopulateResponseHelperTests {
         customerDTO.setOrders(List.of(OrderDTO.builder().placedOn(LocalDateTime.now()).orderStatus(OrderStatus.RETURNED).build()));
         List<CustomerDTO> customerList = List.of(customerDTO);
 
-        /*CustomerResponse response = populateResponseHelper.populateCustomerResponse(customerList);
+        CustomerResponse response = populateResponseHelper.populateCustomerResponse(customerList);
 
         assertNotNull(response);
         assertEquals(1, response.getCustomers().getCustomer().size());
-        assertEquals("Mandisa", response.getCustomers().getCustomer().getFirst().getFirstName());*/
+        assertEquals("Mandisa", response.getCustomers().getCustomer().getFirst().getFirstName());
     }
 
     @Test
