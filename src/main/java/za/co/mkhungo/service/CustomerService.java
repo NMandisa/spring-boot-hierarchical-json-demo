@@ -13,5 +13,5 @@ public interface CustomerService {
     CustomerResponse getCustomerById(Long id) throws CustomerNotFoundException;
     CustomerResponse save(CustomerDTO customerDTO);
     CustomerResponse edit(CustomerDTO customerDTO,Long id)throws CustomerException,CustomerNotFoundException;
-    int delete(Long id);
+    int delete(Long id) throws CustomerNotFoundException;
 }

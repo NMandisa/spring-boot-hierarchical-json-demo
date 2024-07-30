@@ -1,6 +1,7 @@
 package za.co.mkhungo.helper;
 
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import za.co.mkhungo.controller.CustomerController;
 import za.co.mkhungo.controller.OrderController;
@@ -21,6 +22,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 /**
  * @author Noxolo.Mkhungo
  */
+@Slf4j
 @Component
 public class PopulateResponseHelper {
 
@@ -52,17 +54,23 @@ public class PopulateResponseHelper {
                 .product(populateProductSubTrees(product)).build()).build();
     }
     private List<OrderSubTree> populateOrderSubTrees(@NonNull List<OrderDTO> orders) {
-        return orders.stream().map(orderDTO -> {
-                            try {
-                                return OrderSubTree.builder().id(orderDTO.getId())
-                                        .orderStatus(orderDTO.getOrderStatus()).placedOn(orderDTO.getPlacedOn())
-                                        .products(populateProductTree(orderDTO.getProducts())).build()
-                                        .add(linkTo(methodOn(OrderController.class).getOrderById(orderDTO.getId())).withSelfRel(),
-                                                linkTo(methodOn(OrderController.class).getOrders()).withRel("orders"));
-                            } catch (OrderNotFoundException e) {
-                                throw new OrderException(e.getMessage());
-                            }
-                        }).toList();
+        return orders.stream().map(this::mapOrderToSubTree).toList();
+    }
+    private OrderSubTree mapOrderToSubTree(OrderDTO orderDTO) {
+        try {
+            return OrderSubTree.builder()
+                    .id(orderDTO.getId())
+                    .orderStatus(orderDTO.getOrderStatus())
+                    .placedOn(orderDTO.getPlacedOn())
+                    .products(populateProductTree(orderDTO.getProducts()))
+                    .build()
+                    .add(
+                            linkTo(methodOn(OrderController.class).getOrderById(orderDTO.getId())).withSelfRel(),
+                            linkTo(methodOn(OrderController.class).getOrders()).withRel("orders")
+                    );
+        } catch (OrderNotFoundException e) {
+            throw new OrderException(e.getMessage());
+        }
     }
     private List<OrderSubTree> populateOrderSubTree(@NonNull OrderDTO order) throws OrderNotFoundException {
         return List.of(OrderSubTree.builder().products(populateProductTree(order.getProducts()))
@@ -103,20 +111,7 @@ public class PopulateResponseHelper {
                         .comment(reviewDTO.getComment()).build()).toList()).build();
     }
     private List<CustomerSubTree> populateCustomerSubTrees(@NonNull List<CustomerDTO> customers){
-        return customers.stream().map(customerDTO ->
-                {
-                    try {
-                        return CustomerSubTree.builder()
-                                .id(customerDTO.getId()).firstName(customerDTO.getFirstName())
-                                .surname(customerDTO.getSurname())
-                                .orders(OrderTree.builder()
-                                        .order(populateOrderSubTrees(customerDTO.getOrders())).build())
-                                .build().add(linkTo(methodOn(CustomerController.class).getCustomer(customerDTO.getId())).withSelfRel(),
-                                        linkTo(methodOn(CustomerController.class).getCustomers()).withRel("customers"));
-                    } catch (CustomerNotFoundException e) {
-                        throw new CustomerException(e.getMessage());
-                    }
-                }).toList();
+        return customers.stream().map(this::mapCustomerToSubTree).toList();
     }
     private CustomerSubTree populateCustomerSubTree(@NonNull CustomerDTO customerDTO) throws CustomerNotFoundException {
             return CustomerSubTree.builder().id(customerDTO.getId())
@@ -124,5 +119,23 @@ public class PopulateResponseHelper {
                             .order(populateOrderSubTrees(customerDTO.getOrders())).build()).build()
                     .add(linkTo(methodOn(CustomerController.class).getCustomer(customerDTO.getId())).withSelfRel(),
                             linkTo(methodOn(CustomerController.class).getCustomers()).withRel("customers"));
+    }
+
+    private CustomerSubTree mapCustomerToSubTree(CustomerDTO customerDTO) {
+        try {
+            return CustomerSubTree.builder()
+                    .id(customerDTO.getId())
+                    .firstName(customerDTO.getFirstName())
+                    .surname(customerDTO.getSurname())
+                    .orders(OrderTree.builder()
+                            .order(populateOrderSubTrees(customerDTO.getOrders()))
+                            .build())
+                    .build()
+                    .add(linkTo(methodOn(CustomerController.class).getCustomer(customerDTO.getId())).withSelfRel(),
+                            linkTo(methodOn(CustomerController.class).getCustomers()).withRel("customers"));
+        } catch (CustomerNotFoundException e) {
+            log.error("Customer not found: {}", e.getMessage());
+            throw new CustomerException(e.getMessage());
+        }
     }
 }

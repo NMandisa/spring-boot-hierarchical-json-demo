@@ -32,7 +32,7 @@ public class DefaultCustomerService implements CustomerService {
      */
     @Override
     public CustomerResponse getAllCustomers() {
-        return populateResponseHelper.populateCustomerResponse(customerFacade.getAllCustomers());
+        return populateResponseHelper.populateCustomerResponse(customerFacade.fetchAllCustomers());
     }
     /**
      * @param id customer id
@@ -40,7 +40,7 @@ public class DefaultCustomerService implements CustomerService {
      */
     @Override
     public CustomerResponse getCustomerById(Long id) throws CustomerNotFoundException {
-        return populateResponseHelper.populateCustomerResponse(customerFacade.getCustomerById(id));
+        return populateResponseHelper.populateCustomerResponse(customerFacade.fetchCustomerById(id));
     }
 
     /**
@@ -50,7 +50,17 @@ public class DefaultCustomerService implements CustomerService {
     @SneakyThrows
     @Override
     public CustomerResponse save(CustomerDTO customerDTO) {
-        return populateResponseHelper.populateCustomerResponse(customerFacade.save(customerDTO));
+        //return populateResponseHelper.populateCustomerResponse(customerFacade.save(customerDTO));
+        if (customerDTO == null) {
+            throw new IllegalArgumentException("CustomerDTO cannot be null");
+        }
+        try {
+            CustomerDTO savedCustomer = customerFacade.save(customerDTO);
+            return populateResponseHelper.populateCustomerResponse(savedCustomer);
+        } catch (Exception e) {
+            log.error("Error in save method: {}", e.getMessage(), e);
+            throw new CustomerException("Failed to save customer", e);
+        }
     }
 
     /**
@@ -68,7 +78,7 @@ public class DefaultCustomerService implements CustomerService {
      * @return integer value of row affects
      */
     @Override
-    public int delete(Long id) {
-        return 0;
+    public int delete(Long id) throws CustomerNotFoundException {
+        return customerFacade.delete(id);
     }
 }

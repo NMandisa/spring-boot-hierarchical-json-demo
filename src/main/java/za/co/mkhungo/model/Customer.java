@@ -2,6 +2,7 @@ package za.co.mkhungo.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -14,6 +15,7 @@ import java.util.List;
 /**
  * @author Noxolo.Mkhungo
  */
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -36,6 +38,12 @@ public class Customer {
     @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL,fetch = FetchType.EAGER,orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
     private List<Order> orders= new ArrayList<>();
+
+    public Customer(String firstName, String surname) {
+        super();
+        this.firstName = firstName;
+        this.surname = surname;
+    }
 
     public void addOrder(Order order){
         orders.add(order);
