@@ -24,22 +24,22 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Component
 public class PopulateResponseHelper {
 
-    public CustomerResponse populateCustomerTree(@NonNull List<CustomerDTO> customers) {
+    public CustomerResponse populateCustomerResponse(@NonNull List<CustomerDTO> customers) {
         return CustomerResponse.builder()
                 .customers(CustomerTree.builder()
                         .customer(populateCustomerSubTrees(customers)).build()).build();
     }
-    public CustomerResponse populateCustomerTree(@NonNull CustomerDTO customer) throws CustomerNotFoundException {
+    public CustomerResponse populateCustomerResponse(@NonNull CustomerDTO customer) throws CustomerNotFoundException {
         return CustomerResponse.builder()
                 .customers(CustomerTree.builder()
                         .customer(List.of(populateCustomerSubTree(customer))).build()).build();
     }
-    public OrderResponse populateOrderTree(@NonNull List<OrderDTO> orders) {
+    public OrderResponse populateOrderResponse(@NonNull List<OrderDTO> orders) {
         return OrderResponse.builder()
                 .orders(OrderTree.builder()
                         .order(populateOrderSubTrees(orders)).build()).build();
     }
-    public OrderResponse populateOrderTree(@NonNull OrderDTO order) throws OrderNotFoundException {
+    public OrderResponse populateOrderResponse(@NonNull OrderDTO order) throws OrderNotFoundException {
         return OrderResponse.builder()
                 .orders(OrderTree.builder()
                         .order(populateOrderSubTree(order)).build()).build();
@@ -75,7 +75,7 @@ public class PopulateResponseHelper {
                 {
                     try {
                         return ProductSubTree.builder().id(productDTO.getId()).name(productDTO.getName()).price(productDTO.getPrice())
-                                .ratings(RatingTree.builder().rating(populateRatingSubTree(productDTO)).build()).build()
+                                .ratings(populateRatingTree(productDTO.getRatings())).build()
                                 .add(linkTo(methodOn(ProductController.class).getProductById(productDTO.getId())).withSelfRel(),
                                         linkTo(methodOn(ProductController.class).getProducts()).withRel("products"));
                     } catch (ProductNotFoundException e) {
@@ -87,23 +87,20 @@ public class PopulateResponseHelper {
     private List<ProductSubTree> populateProductSubTrees(@NonNull ProductDTO productDTO) throws ProductNotFoundException {
          return List.of((ProductSubTree.builder().id(productDTO.getId())
                 .name(productDTO.getName()).price(productDTO.getPrice())
-                 .ratings(populateRatingTree(productDTO)).build()
+                 .ratings(populateRatingTree(productDTO.getRatings())).build()
                  .add(linkTo(methodOn(ProductController.class).getProductById(productDTO.getId())).withSelfRel(),
                          linkTo(methodOn(ProductController.class).getProducts()).withRel("products"))
          ));
     }
-    private List<RatingSubTree> populateRatingSubTree(@NonNull ProductDTO productDTO) {
-        return productDTO.getRatings().stream().map(ratingDTO ->
+    private RatingTree populateRatingTree(@NonNull List<RatingDTO> ratings) {
+        return RatingTree.builder().rating(ratings.stream().map(ratingDTO ->
                         RatingSubTree.builder().id(ratingDTO.getId()).rating(ratingDTO.getRate())
-                                .reviews(ReviewTree.builder().review(populateReviewSubTrees(ratingDTO)).build()).build()).toList();
+                                .reviews(populateReviewTree(ratingDTO.getReviews())).build()).toList()).build();
     }
-    private RatingTree populateRatingTree(@NonNull ProductDTO productDTO) {
-        return RatingTree.builder().rating(populateRatingSubTree(productDTO)).build();
-    }
-    private List<ReviewSubTree> populateReviewSubTrees(@NonNull RatingDTO ratingDTO){
-        return ratingDTO.getReviews().stream().map(reviewDTO -> ReviewSubTree.builder()
+    private ReviewTree populateReviewTree(@NonNull List<ReviewDTO> reviews){
+        return ReviewTree.builder().review(reviews.stream().map(reviewDTO -> ReviewSubTree.builder()
                         .id(reviewDTO.getId()).tagLine(reviewDTO.getTagLine())
-                        .comment(reviewDTO.getComment()).build()).toList();
+                        .comment(reviewDTO.getComment()).build()).toList()).build();
     }
     private List<CustomerSubTree> populateCustomerSubTrees(@NonNull List<CustomerDTO> customers){
         return customers.stream().map(customerDTO ->

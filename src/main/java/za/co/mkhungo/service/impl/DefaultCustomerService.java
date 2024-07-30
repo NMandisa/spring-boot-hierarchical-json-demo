@@ -32,7 +32,7 @@ public class DefaultCustomerService implements CustomerService {
      */
     @Override
     public CustomerResponse getAllCustomers() {
-        return populateResponseHelper.populateCustomerTree(customerFacade.getAllCustomers());
+        return populateResponseHelper.populateCustomerResponse(customerFacade.getAllCustomers());
     }
     /**
      * @param id customer id
@@ -40,7 +40,7 @@ public class DefaultCustomerService implements CustomerService {
      */
     @Override
     public CustomerResponse getCustomerById(Long id) throws CustomerNotFoundException {
-        return populateResponseHelper.populateCustomerTree(customerFacade.getCustomerById(id));
+        return populateResponseHelper.populateCustomerResponse(customerFacade.getCustomerById(id));
     }
 
     /**
@@ -50,7 +50,7 @@ public class DefaultCustomerService implements CustomerService {
     @SneakyThrows
     @Override
     public CustomerResponse save(CustomerDTO customerDTO) {
-        return populateResponseHelper.populateCustomerTree(customerFacade.save(customerDTO));
+        return populateResponseHelper.populateCustomerResponse(customerFacade.save(customerDTO));
     }
 
     /**
@@ -60,7 +60,7 @@ public class DefaultCustomerService implements CustomerService {
      */
     @Override
     public CustomerResponse edit(CustomerDTO customerDTO, Long id) throws CustomerException, CustomerNotFoundException {
-        return populateResponseHelper.populateCustomerTree(customerFacade.edit(customerDTO,id));
+        return populateResponseHelper.populateCustomerResponse(customerFacade.edit(customerDTO,id));
     }
 
     /**
