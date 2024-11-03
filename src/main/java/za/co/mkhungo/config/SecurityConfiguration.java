@@ -15,7 +15,8 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
 
     private static final String[] WHITE_LIST_URL = {"/customers/**",
-            "/orders/**","/products/**","/v2/api-docs", "/v3/api-docs", "/v3/api-docs/**",
+            "/orders/**","/products/**","/v2/api-docs", "/actuator/health","/actuator/metrics","/actuator/info",
+            "/v3/api-docs", "/v3/api-docs/**",
             "/swagger-resources", "/swagger-resources/**",
             "/configuration/ui", "/configuration/security",
             "/swagger-ui/**", "/swagger-ui.html"};

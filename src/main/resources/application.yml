@@ -22,25 +22,35 @@ spring:
     password: root
   ## JPA
   jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
+    #database-platform: org.hibernate.dialect.MySQLDialect
     # dev only set to true for debugging purposes
     show-sql: true
     ## JPA - HIBERNATE
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
-    #defer-datasource-initialization: true
+        show_sql: true
+    defer-datasource-initialization: true
     open-in-view: false
-  # H2 Database
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-      settings:
-        trace: false
-        web-allow-others: false
-        web-admin-password: 1234
   jackson:
     default-property-inclusion: non_null
+    serialization:
+      indent-output: true
+logging:
+  level:
+    root: debug
+management:
+  endpoints:
+    jackson:
+      isolated-object-mapper: false
+    web:
+      exposure:
+        include: health,metrics,info
+        exclude: env,loggers
+  endpoint:
+    shutdown:
+      enabled: false
+    loggers:
+      enabled: true
