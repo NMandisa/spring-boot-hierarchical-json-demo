@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 import za.co.mkhungo.dto.ProductDTO;
 import za.co.mkhungo.exception.ProductNotFoundException;
 import za.co.mkhungo.facade.ProductFacade;
-import za.co.mkhungo.helper.PopulateResponseHelper;
+import za.co.mkhungo.helper.ProductTreePopulator;
 import za.co.mkhungo.response.ProductResponse;
 import za.co.mkhungo.service.ProductService;
+
+import java.util.List;
 
 /**
  * @author Noxolo.Mkhungo
@@ -18,11 +20,12 @@ import za.co.mkhungo.service.ProductService;
 @Service
 public class DefaultProductService implements ProductService {
     private final ProductFacade productFacade;
-    private final PopulateResponseHelper populateResponseHelper;
+    private final ProductTreePopulator productTreePopulator;
     @Autowired
-    public DefaultProductService(@Qualifier("defaultProductFacade") ProductFacade productFacade,PopulateResponseHelper populateResponseHelper){
+    public DefaultProductService(@Qualifier("defaultProductFacade") ProductFacade productFacade,
+                                 ProductTreePopulator productTreePopulator){
         this.productFacade=productFacade;
-        this.populateResponseHelper=populateResponseHelper;
+        this.productTreePopulator=productTreePopulator;
     }
 
     /**
@@ -30,7 +33,9 @@ public class DefaultProductService implements ProductService {
      */
     @Override
     public ProductResponse getAllProducts() {
-        return populateResponseHelper.populateProductResponse(productFacade.fetchAllProducts());
+        return ProductResponse.builder()
+                .products(productTreePopulator.populateProductTree(
+                                productFacade.fetchAllProducts())).build();
     }
 
     /**
@@ -40,7 +45,9 @@ public class DefaultProductService implements ProductService {
      */
     @Override
     public ProductResponse getProductById(long id) throws ProductNotFoundException {
-        return populateResponseHelper.populateProductResponse(productFacade.fetchProductById(id));
+        return ProductResponse.builder()
+                .products(productTreePopulator.populateProductTree(
+                        List.of(productFacade.fetchProductById(id)))).build();
     }
 
     /**

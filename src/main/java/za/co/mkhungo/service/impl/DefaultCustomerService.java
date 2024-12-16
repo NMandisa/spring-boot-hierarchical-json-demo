@@ -9,9 +9,11 @@ import za.co.mkhungo.dto.CustomerDTO;
 import za.co.mkhungo.exception.CustomerException;
 import za.co.mkhungo.exception.CustomerNotFoundException;
 import za.co.mkhungo.facade.CustomerFacade;
-import za.co.mkhungo.helper.PopulateResponseHelper;
+import za.co.mkhungo.helper.CustomerTreePopulator;
 import za.co.mkhungo.response.CustomerResponse;
 import za.co.mkhungo.service.CustomerService;
+
+import java.util.List;
 
 /**
  * @author Noxolo.Mkhungo
@@ -20,11 +22,12 @@ import za.co.mkhungo.service.CustomerService;
 @Service
 public class DefaultCustomerService implements CustomerService {
     private final CustomerFacade customerFacade;
-    private final PopulateResponseHelper populateResponseHelper;
+    private final CustomerTreePopulator customerTreePopulator;
     @Autowired
-    public DefaultCustomerService(@Qualifier("defaultCustomerFacade") CustomerFacade customerFacade,PopulateResponseHelper populateResponseHelper){
+    public DefaultCustomerService(@Qualifier("defaultCustomerFacade") CustomerFacade customerFacade,
+                                  CustomerTreePopulator customerTreePopulator){
         this.customerFacade=customerFacade;
-        this.populateResponseHelper=populateResponseHelper;
+        this.customerTreePopulator=customerTreePopulator;
     }
 
     /**
@@ -32,7 +35,9 @@ public class DefaultCustomerService implements CustomerService {
      */
     @Override
     public CustomerResponse getAllCustomers() {
-        return populateResponseHelper.populateCustomerResponse(customerFacade.fetchAllCustomers());
+        return CustomerResponse.builder()
+                .customers(customerTreePopulator.populateCustomerTree(
+                        customerFacade.fetchAllCustomers())).build();
     }
     /**
      * @param id customer id
@@ -40,7 +45,9 @@ public class DefaultCustomerService implements CustomerService {
      */
     @Override
     public CustomerResponse getCustomerById(Long id) throws CustomerNotFoundException {
-        return populateResponseHelper.populateCustomerResponse(customerFacade.fetchCustomerById(id));
+        return CustomerResponse.builder()
+                .customers(customerTreePopulator.populateCustomerTree(
+                        List.of(customerFacade.fetchCustomerById(id)))).build();
     }
 
     /**
@@ -50,13 +57,11 @@ public class DefaultCustomerService implements CustomerService {
     @SneakyThrows
     @Override
     public CustomerResponse save(CustomerDTO customerDTO) {
-        //return populateResponseHelper.populateCustomerResponse(customerFacade.save(customerDTO));
-        if (customerDTO == null) {
-            throw new IllegalArgumentException("CustomerDTO cannot be null");
-        }
         try {
             CustomerDTO savedCustomer = customerFacade.save(customerDTO);
-            return populateResponseHelper.populateCustomerResponse(savedCustomer);
+            return CustomerResponse.builder()
+                    .customers(customerTreePopulator.populateCustomerTree(
+                            List.of(savedCustomer))).build();
         } catch (Exception e) {
             log.error("Error in save method: {}", e.getMessage(), e);
             throw new CustomerException("Failed to save customer", e);
@@ -70,7 +75,9 @@ public class DefaultCustomerService implements CustomerService {
      */
     @Override
     public CustomerResponse edit(CustomerDTO customerDTO, Long id) throws CustomerException, CustomerNotFoundException {
-        return populateResponseHelper.populateCustomerResponse(customerFacade.edit(customerDTO,id));
+        return CustomerResponse.builder()
+                .customers(customerTreePopulator.populateCustomerTree(
+                        List.of(customerFacade.edit(customerDTO,id)))).build();
     }
 
     /**

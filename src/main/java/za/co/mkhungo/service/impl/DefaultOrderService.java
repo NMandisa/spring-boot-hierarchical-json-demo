@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 import za.co.mkhungo.dto.OrderDTO;
 import za.co.mkhungo.exception.OrderNotFoundException;
 import za.co.mkhungo.facade.OrderFacade;
-import za.co.mkhungo.helper.PopulateResponseHelper;
+import za.co.mkhungo.helper.OrderTreePopulator;
 import za.co.mkhungo.response.OrderResponse;
 import za.co.mkhungo.service.OrderService;
+
+import java.util.List;
 
 /**
  * @author Noxolo.Mkhungo
@@ -18,11 +20,11 @@ import za.co.mkhungo.service.OrderService;
 @Service
 public class DefaultOrderService implements OrderService {
     private final OrderFacade orderFacade;
-    private final PopulateResponseHelper populateResponseHelper;
+    private final OrderTreePopulator orderTreePopulator;
     @Autowired
-    public DefaultOrderService(@Qualifier("defaultOrderFacade") OrderFacade orderFacade,PopulateResponseHelper populateResponseHelper){
+    public DefaultOrderService(@Qualifier("defaultOrderFacade") OrderFacade orderFacade,OrderTreePopulator orderTreePopulator){
         this.orderFacade=orderFacade;
-        this.populateResponseHelper=populateResponseHelper;
+        this.orderTreePopulator=orderTreePopulator;
     }
 
     /**
@@ -30,7 +32,9 @@ public class DefaultOrderService implements OrderService {
      */
     @Override
     public OrderResponse getAllOrders() {
-        return populateResponseHelper.populateOrderResponse(orderFacade.fetchAllOrders());
+        return OrderResponse.builder()
+                .orders(orderTreePopulator.populateOrderTree(orderFacade.fetchAllOrders()))
+                .build();
     }
 
     /**
@@ -39,7 +43,8 @@ public class DefaultOrderService implements OrderService {
      */
     @Override
     public OrderResponse getOrderById(Long id) throws OrderNotFoundException {
-        return populateResponseHelper.populateOrderResponse(orderFacade.fetchOrderById(id));
+        return OrderResponse.builder()
+                .orders(orderTreePopulator.populateOrderTree(List.of(orderFacade.fetchOrderById(id)))).build();
     }
 
     /**

@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 import za.co.mkhungo.dto.ReviewDTO;
 import za.co.mkhungo.exception.ReviewNotFoundException;
 import za.co.mkhungo.facade.ReviewFacade;
-import za.co.mkhungo.helper.PopulateResponseHelper;
+import za.co.mkhungo.helper.ReviewTreePopulator;
 import za.co.mkhungo.response.ReviewResponse;
 import za.co.mkhungo.service.ReviewService;
+
+import java.util.List;
 
 /**
  * @author Noxolo.Mkhungo
@@ -18,11 +20,11 @@ import za.co.mkhungo.service.ReviewService;
 public class DefaultReviewService implements ReviewService {
 
     private final ReviewFacade reviewFacade;
-    private final PopulateResponseHelper populateResponseHelper;
+    private final ReviewTreePopulator reviewTreePopulator;
 
-    public DefaultReviewService(@Qualifier("defaultReviewFacade")  ReviewFacade reviewFacade,PopulateResponseHelper populateResponseHelper){
+    public DefaultReviewService(@Qualifier("defaultReviewFacade")  ReviewFacade reviewFacade,ReviewTreePopulator reviewTreePopulator){
         this.reviewFacade=reviewFacade;
-        this.populateResponseHelper=populateResponseHelper;
+        this.reviewTreePopulator=reviewTreePopulator;
     }
 
     /**
@@ -30,8 +32,9 @@ public class DefaultReviewService implements ReviewService {
      */
     @Override
     public ReviewResponse getAllReviews() {
-        //return reviewFacade.getAllReviews();
-        return null;
+        return ReviewResponse.builder().reviews(
+                reviewTreePopulator.populateReviewTree(
+                        reviewFacade.fetchAllReviews())).build();
     }
 
     /**
@@ -41,7 +44,9 @@ public class DefaultReviewService implements ReviewService {
      */
     @Override
     public ReviewResponse getReviewById(Long id) throws ReviewNotFoundException {
-        return populateResponseHelper.populateReviewResponse(reviewFacade.fetchReviewById(id));
+        return ReviewResponse.builder().reviews(
+                reviewTreePopulator.populateReviewTree(List.of(
+                        reviewFacade.fetchReviewById(id)))).build();
     }
 
     /**
