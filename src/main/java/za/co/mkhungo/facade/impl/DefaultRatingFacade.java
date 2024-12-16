@@ -4,7 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import za.co.mkhungo.dto.RatingDTO;
+import za.co.mkhungo.exception.RatingNotFoundException;
+import za.co.mkhungo.exception.ReviewNotFoundException;
 import za.co.mkhungo.facade.RatingFacade;
+import za.co.mkhungo.model.Rating;
+import za.co.mkhungo.model.Review;
 import za.co.mkhungo.repository.RatingRepository;
 import za.co.mkhungo.utils.MapperUtil;
 
@@ -26,10 +30,22 @@ public class DefaultRatingFacade implements RatingFacade {
      * @return List RatingDTO rating data transfer objects
      */
     @Override
-    public List<RatingDTO> getAllRatings() {
+    public List<RatingDTO> fetchAllRatings() {
         return ratingRepository.findAll().stream()
                 .peek(rating -> log.debug("Rating : {} ", rating))
                 .map(MapperUtil::convertRatingModelToDto).toList();
+    }
+
+    /**
+     * @param id
+     * @return
+     * @throws RatingNotFoundException
+     */
+    @Override
+    public RatingDTO fetchRatingById(Long id) throws RatingNotFoundException {
+        Rating rating = ratingRepository.findById(id).orElseThrow(RatingNotFoundException::new);
+        log.debug("Rating : {} class {} -->", rating, DefaultRatingFacade.class);
+        return MapperUtil.convertRatingModelToDto(rating);
     }
 
     /**

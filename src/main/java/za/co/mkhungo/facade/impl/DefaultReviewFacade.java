@@ -4,7 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import za.co.mkhungo.dto.ReviewDTO;
+import za.co.mkhungo.exception.ProductNotFoundException;
+import za.co.mkhungo.exception.ReviewNotFoundException;
+import za.co.mkhungo.facade.ProductFacade;
 import za.co.mkhungo.facade.ReviewFacade;
+import za.co.mkhungo.model.Product;
 import za.co.mkhungo.model.Review;
 import za.co.mkhungo.repository.ReviewRepository;
 import za.co.mkhungo.utils.MapperUtil;
@@ -29,10 +33,22 @@ public class DefaultReviewFacade implements ReviewFacade {
      * @return List ReviewDTO review data transfer objects
      */
     @Override
-    public List<ReviewDTO> getAllReviews() {
+    public List<ReviewDTO> fetchAllReviews() {
         return reviewRepository.findAll().stream()
                 .peek(review -> log.debug("Review : {}", review))
                 .map(MapperUtil::convertReviewModelToDto).toList();
+    }
+
+    /**
+     * @param id
+     * @return
+     * @throws ReviewNotFoundException
+     */
+    @Override
+    public ReviewDTO fetchReviewById(Long id) throws ReviewNotFoundException {
+        Review review = reviewRepository.findById(id).orElseThrow(ReviewNotFoundException::new);
+        log.debug("Review : {} class {} -->", review, DefaultReviewFacade.class);
+        return MapperUtil.convertReviewModelToDto(review);
     }
 
     /**

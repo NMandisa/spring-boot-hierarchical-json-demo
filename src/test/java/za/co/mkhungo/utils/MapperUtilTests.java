@@ -17,7 +17,6 @@ class MapperUtilTests {
 
     @BeforeEach
     void setUp() {
-        MapperUtil.setModelMapper(Mockito.spy(new ModelMapper()));
     }
 
     @Test

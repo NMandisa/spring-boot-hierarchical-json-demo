@@ -10,8 +10,7 @@ import java.util.List;
 /**
  * @author Noxolo.Mkhungo
  */
-@Getter
-@Setter
+
 @Data
 @Builder
 @AllArgsConstructor

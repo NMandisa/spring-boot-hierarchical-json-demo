@@ -2,13 +2,17 @@ package za.co.mkhungo.helper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import za.co.mkhungo.dto.*;
 import za.co.mkhungo.exception.*;
 import za.co.mkhungo.model.enums.OrderStatus;
 import za.co.mkhungo.response.CustomerResponse;
 import za.co.mkhungo.response.OrderResponse;
+import za.co.mkhungo.strategy.impl.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,9 +22,20 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author Noxolo.Mkhungo
  */
+@ExtendWith(MockitoExtension.class)
 class PopulateResponseHelperTests {
     @InjectMocks
     private PopulateResponseHelper populateResponseHelper;
+    @Mock
+    private  CustomerControllerLinkProvider customerControllerLinkProvider;
+    @Mock
+    private  OrderControllerLinkProvider orderControllerLinkProvider;
+    @Mock
+    private  RatingControllerLinkProvider ratingControllerLinkProvider;
+    @Mock
+    private  ReviewControllerLinkProvider reviewControllerLinkProvider;
+    @Mock
+    private ProductControllerLinkProvider productControllerLinkProvider;
 
     @BeforeEach
     void setUp() {

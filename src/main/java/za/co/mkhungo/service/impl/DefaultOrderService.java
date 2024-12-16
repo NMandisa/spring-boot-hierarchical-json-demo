@@ -30,7 +30,7 @@ public class DefaultOrderService implements OrderService {
      */
     @Override
     public OrderResponse getAllOrders() {
-        return populateResponseHelper.populateOrderResponse(orderFacade.getAllOrders());
+        return populateResponseHelper.populateOrderResponse(orderFacade.fetchAllOrders());
     }
 
     /**
@@ -39,7 +39,7 @@ public class DefaultOrderService implements OrderService {
      */
     @Override
     public OrderResponse getOrderById(Long id) throws OrderNotFoundException {
-        return populateResponseHelper.populateOrderResponse(orderFacade.getOrderById(id));
+        return populateResponseHelper.populateOrderResponse(orderFacade.fetchOrderById(id));
     }
 
     /**

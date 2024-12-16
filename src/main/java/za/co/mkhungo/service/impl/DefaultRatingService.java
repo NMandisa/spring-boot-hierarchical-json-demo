@@ -4,7 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import za.co.mkhungo.dto.RatingDTO;
+import za.co.mkhungo.exception.RatingNotFoundException;
 import za.co.mkhungo.facade.RatingFacade;
+import za.co.mkhungo.helper.PopulateResponseHelper;
 import za.co.mkhungo.response.RatingResponse;
 import za.co.mkhungo.service.RatingService;
 
@@ -15,8 +17,11 @@ import za.co.mkhungo.service.RatingService;
 @Service
 public class DefaultRatingService implements RatingService {
     private final RatingFacade ratingFacade;
-    public DefaultRatingService(@Qualifier("defaultRatingFacade") RatingFacade ratingFacade){
+    private final PopulateResponseHelper populateResponseHelper;
+
+    public DefaultRatingService(@Qualifier("defaultRatingFacade") RatingFacade ratingFacade, PopulateResponseHelper populateResponseHelper){
         this.ratingFacade=ratingFacade;
+        this.populateResponseHelper = populateResponseHelper;
     }
 
     /**
@@ -26,6 +31,16 @@ public class DefaultRatingService implements RatingService {
     public RatingResponse getAllRatings() {
         //return ratingFacade.getAllRatings();
         return null;
+    }
+
+    /**
+     * @param id
+     * @return
+     * @throws RatingNotFoundException
+     */
+    @Override
+    public RatingResponse getRatingById(Long id) throws RatingNotFoundException {
+        return populateResponseHelper.populateRatingResponse(ratingFacade.fetchRatingById(id));
     }
 
     /**

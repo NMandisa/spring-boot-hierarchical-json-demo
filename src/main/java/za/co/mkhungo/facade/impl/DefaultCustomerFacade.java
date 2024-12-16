@@ -44,7 +44,7 @@ public class DefaultCustomerFacade implements CustomerFacade {
         }
         catch (Exception e) {
             log.error("Error fetching customers : {}",e.getMessage());
-            throw new CustomerException(e.getMessage());
+            throw new CustomerException(e.getMessage(),e);
         }
     }
 
@@ -65,9 +65,7 @@ public class DefaultCustomerFacade implements CustomerFacade {
      */
     @Override
     public CustomerDTO save(CustomerDTO customerDTO) {
-        if(Objects.isNull(customerDTO)) {
-            throw new CustomerException("CustomerDTO cannot be null");
-        }
+        validateCustomerDTO(customerDTO);
         log.debug("Saving Customer : {}", customerDTO);
         Customer savedCustomer = customerRepository.save(MapperUtil.convertCustomerDtoToModel(customerDTO));
         return MapperUtil.convertCustomerModelToDto(savedCustomer);
@@ -81,17 +79,12 @@ public class DefaultCustomerFacade implements CustomerFacade {
     @Transactional
     @Override
     public CustomerDTO edit(CustomerDTO customerDTO, Long id) throws CustomerException, CustomerNotFoundException {
-        if(Objects.isNull(customerDTO) || Objects.isNull(id)) {
-            throw new CustomerException("CustomerDTO cannot be null");
-        }
-        Customer editCustomer = customerRepository.findById(id)
-                .map(existingCustomer -> {
-                    existingCustomer.setFirstName(customerDTO.getFirstName());
-                    existingCustomer.setSurname(customerDTO.getSurname());
-                    return customerRepository.save(existingCustomer);
-                }).orElseThrow(() -> new CustomerNotFoundException("Customer not found with ID " + id));
-        log.debug("Edited Customer with ID  : {}. New details  {} -->", id, editCustomer);
-        return MapperUtil.convertCustomerModelToDto(editCustomer);
+        validateCustomerDTO(customerDTO);
+        Customer editedCustomer = customerRepository.findById(id)
+                .map(existingCustomer -> updateCustomerDetails(existingCustomer,customerDTO))
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found with ID " + id));
+        log.debug("Edited Customer with ID  : {}. New details  {} -->", id, editedCustomer);
+        return MapperUtil.convertCustomerModelToDto(editedCustomer);
     }
 
     /**
@@ -105,10 +98,23 @@ public class DefaultCustomerFacade implements CustomerFacade {
             throw new CustomerNotFoundException("Customer not found with ID" + id);
         }
         log.debug("Deleting Customer with ID {} -->", id);
-        int rowsAffected = customerRepository.deleteByIdAndCount(id);
-        if (rowsAffected != 1) {
-            throw new CustomerException("Unexpected number of rows affected: " + rowsAffected);
+        //Affected Row should return 1
+        return customerRepository.deleteByIdAndCount(id);
+    }
+
+    /** Validates the CustomerDTO object. *
+     * @param customerDTO the CustomerDTO to validate
+     * @throws CustomerException if customerDTO is null
+     */
+    private void validateCustomerDTO(CustomerDTO customerDTO) {
+        if(Objects.isNull(customerDTO)) {
+            throw new CustomerException("CustomerDTO cannot be null");
         }
-        return rowsAffected;
+    }
+
+    private Customer updateCustomerDetails(Customer existingCustomer, CustomerDTO customerDTO) {
+        existingCustomer.setFirstName(customerDTO.getFirstName());
+        existingCustomer.setSurname(customerDTO.getSurname());
+        return customerRepository.save(existingCustomer);
     }
 }

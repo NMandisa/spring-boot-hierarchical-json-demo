@@ -5,9 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import za.co.mkhungo.exception.RatingNotFoundException;
 import za.co.mkhungo.response.RatingResponse;
 import za.co.mkhungo.service.RatingService;
 
@@ -28,5 +27,9 @@ public class RatingController {
     @GetMapping("/")
     public ResponseEntity<RatingResponse> getRatings(){
         return new ResponseEntity<>(ratingService.getAllRatings(), HttpStatus.OK);
+    }
+    @PostMapping("/{id}")
+    public ResponseEntity<RatingResponse> getRatingById(@PathVariable("id") Long id) throws RatingNotFoundException {
+        return ResponseEntity.accepted().body(ratingService.getRatingById(id));
     }
 }

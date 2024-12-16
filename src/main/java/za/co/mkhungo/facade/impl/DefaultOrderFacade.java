@@ -26,7 +26,7 @@ public class DefaultOrderFacade implements OrderFacade {
      * @return List<OrderDTO> orders
      */
     @Override
-    public List<OrderDTO> getAllOrders() {
+    public List<OrderDTO> fetchAllOrders() {
         return orderRepository.findAll().stream()
                 .peek(order -> log.debug("Order : {}", order))
                 .map(MapperUtil::convertOrderModelToDto).toList();
@@ -37,7 +37,7 @@ public class DefaultOrderFacade implements OrderFacade {
      * @return OrderDTO order
      */
     @Override
-    public OrderDTO getOrderById(Long id) throws OrderNotFoundException {
+    public OrderDTO fetchOrderById(Long id) throws OrderNotFoundException {
         Order order = orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
         log.debug("Order : {} class {} -->", order, OrderFacade.class);
         return MapperUtil.convertOrderModelToDto(order);

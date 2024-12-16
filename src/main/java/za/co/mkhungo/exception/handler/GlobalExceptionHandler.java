@@ -5,10 +5,14 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import za.co.mkhungo.exception.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Noxolo.Mkhungo
@@ -21,6 +25,14 @@ public class GlobalExceptionHandler {
     public final ResponseEntity<?> handleException(Exception ex) {
         return new ResponseEntity<>(ex,null, HttpStatus.INTERNAL_SERVER_ERROR);//500
     }
+    @ExceptionHandler(value = {MethodArgumentNotValidException.class})
+    public final ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors().forEach(error ->
+            errors.put(error.getField(), error.getDefaultMessage()));
+        return ResponseEntity.badRequest().body(errors);//403
+    }
+
     @ExceptionHandler(value = {CustomerException.class})
     public final ResponseEntity<?> handleCustomerException(CustomerException ex) {
         return new ResponseEntity<>(ex,null, HttpStatus.INTERNAL_SERVER_ERROR);//500

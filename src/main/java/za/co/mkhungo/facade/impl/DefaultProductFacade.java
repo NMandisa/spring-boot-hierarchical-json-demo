@@ -26,7 +26,7 @@ public class DefaultProductFacade implements ProductFacade {
      * @return List product data transfer object
      */
     @Override
-    public List<ProductDTO> getAllProducts() {
+    public List<ProductDTO> fetchAllProducts() {
         return productRepository.findAll().stream()
                 .peek(product -> log.debug("Product : {} ", product))
                 .map(MapperUtil::convertProductModelToDto).toList();
@@ -38,7 +38,7 @@ public class DefaultProductFacade implements ProductFacade {
      * @throws ProductNotFoundException product not found exception
      */
     @Override
-    public ProductDTO getProductById(Long id) throws ProductNotFoundException {
+    public ProductDTO fetchProductById(Long id) throws ProductNotFoundException {
         Product product = productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
         log.debug("Product : {} class {} -->", product, ProductFacade.class);
         return MapperUtil.convertProductModelToDto(product);

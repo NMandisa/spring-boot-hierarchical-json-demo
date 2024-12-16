@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -101,7 +102,7 @@ public class CustomerController {
                     )}
     )
     @PostMapping(value = "/",consumes = "application/json")
-    public ResponseEntity<CustomerResponse> saveCustomer(@RequestBody CustomerValueObject customerValueObject){
+    public ResponseEntity<CustomerResponse> saveCustomer(@Valid @RequestBody CustomerValueObject customerValueObject){
         return ResponseEntity.accepted().body(customerService.save(CustomerDTO.builder()
                         .firstName(customerValueObject.getFirstName()).surname(customerValueObject.getSurname()).build()));
     }

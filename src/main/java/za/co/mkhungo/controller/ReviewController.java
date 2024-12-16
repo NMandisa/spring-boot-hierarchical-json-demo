@@ -5,9 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import za.co.mkhungo.exception.ReviewNotFoundException;
 import za.co.mkhungo.response.ReviewResponse;
 import za.co.mkhungo.service.ReviewService;
 
@@ -27,5 +26,9 @@ public class ReviewController {
     @GetMapping("/")
     public ResponseEntity<ReviewResponse> getReviews(){
         return new ResponseEntity<>(reviewService.getAllReviews(), HttpStatus.OK);
+    }
+    @PostMapping("/{id}")
+    public ResponseEntity<ReviewResponse> getReviewById(@PathVariable("id") Long id) throws ReviewNotFoundException {
+        return ResponseEntity.accepted().body(reviewService.getReviewById(id));
     }
 }
