@@ -1,52 +1,89 @@
-CLOSED-SOURCE LICENSE
+CLOSED-SOURCE SOFTWARE LICENSE AGREEMENT
 
 IMPORTANT: READ CAREFULLY BEFORE USING THE SOFTWARE
 
-This Closed-Source License Agreement ("Agreement") is a legal agreement between Noxolo Mandisa Mkhungo ("Licensor") and you ("Licensee") for the use of source code.
+This Closed-Source License Agreement ("Agreement") is a legal agreement between Noxolo Mandisa Mkhungo ("Licensor") and you ("Licensee") regarding the use of the proprietary software source code ("Software").
 
-1. GRANT OF LICENSE
+1. DEFINITIONS
 
-Licensor grants Licensee a non-exclusive, non-transferable license to use the Software source code solely for internal purposes. Licensee may not:
+For purposes of this Agreement:
 
-- Share, distribute, or sublicense the Software source code to any third party
-- Modify, adapt, or create derivative works of the Software source code
-- Reverse engineer, decompile, or disassemble the Software source code
-- Use the Software source code for any commercial purpose
+1.1 "Software" means the proprietary source code, including any related documentation, scripts, binaries, and any updates or modifications provided by Licensor.
 
-2. SOURCE CODE RESTRICTIONS
+1.2 "Internal Use" means use strictly for Licensee’s internal development and testing within its organization. It does not include commercial deployment, distribution, or use in a production environment.
 
-Licensee acknowledges that the Software source code is proprietary and confidential. Licensee agrees not to:
+2. GRANT OF LICENSE
 
-- Disclose or share the Software source code with any third party
-- Use the Software source code to develop competing products or services
-- Remove or alter any copyright, trademark, or proprietary notices
+2.1 Licensor grants Licensee a non-exclusive, non-transferable, non-sublicensable license to use the Software solely for Internal Use.
 
-3. OWNERSHIP
+2.2 Licensee shall not:
 
-Licensor retains all rights, title, and interest in and to the Software source code, including all intellectual property rights.
+a.) Share, distribute, sublicense, or transfer the Software to any third party.
 
-4. TERMINATION
+b.) Modify, adapt, or create derivative works of the Software.
 
-This Agreement will terminate immediately if Licensee fails to comply with its terms.
+c.) Reverse engineer, decompile, or disassemble the Software.
 
-5. WARRANTY DISCLAIMER
+d.) Use the Software for any commercial purpose.
 
-Software source code is provided "AS IS" without warranty of any kind.
+3. CONFIDENTIALITY & RESTRICTIONS
 
-6. LIMITATION OF LIABILITY
+3.1 Licensee acknowledges that the Software is proprietary and confidential. Licensee agrees not to:
 
-In no event will Licensor be liable for any damages, including consequential damages.
+a.) Disclose, share, or make the Software available to any third party.
 
-7. GOVERNING LAW
+b.) Use the Software to develop competing products or services.
 
-This Agreement will be governed by and construed in accordance with the laws of South Africa.
+c.) Remove, alter, or obscure any copyright, trademark, or proprietary notices.
 
-8. AGREEMENT
 
-This Agreement constitutes the entire agreement between parties and supersedes all prior negotiations.
+3.2 Licensee’s confidentiality obligations shall survive termination of this Agreement and remain in effect for five (5) years after termination.
 
-By using the Software source code, Licensee acknowledges that it has read, understands, and agrees to be bound by this Agreement.
+4. INTELLECTUAL PROPERTY OWNERSHIP
 
-Noxolo Mandisa Mkhungo
+4.1 Licensor retains all rights, title, and interest in and to the Software, including all associated intellectual property rights. This Agreement does not grant Licensee any ownership rights.
 
-2024 -
+5. TERM AND TERMINATION
+
+5.1 This Agreement is effective from the date Licensee first accesses the Software and remains in effect unless terminated earlier.
+
+5.2 Licensor may terminate this Agreement upon written notice if Licensee breaches any provision.
+
+5.3 Upon termination:
+
+a.) Licensee must immediately cease all use of the Software.
+
+b.) Licensee must delete all copies of the Software and provide written certification of deletion upon request.
+
+6. WARRANTY DISCLAIMER
+
+6.1 The Software is provided "AS IS", without any warranties, express or implied, including but not limited to merchantability, fitness for a particular purpose, or non-infringement.
+
+7. LIMITATION OF LIABILITY
+
+7.1 Licensor shall not be liable for any indirect, incidental, consequential, special, or exemplary damages arising from the use of the Software.
+
+8. INDEMNIFICATION
+
+8.1 Licensee agrees to indemnify, defend, and hold harmless Licensor from any claims, damages, liabilities, or expenses arising from Licensee’s use of the Software in violation of this Agreement.
+
+9. GOVERNING LAW & DISPUTE RESOLUTION
+
+9.1 This Agreement shall be governed by and construed in accordance with the laws of South Africa.
+
+9.2 Any disputes arising under this Agreement shall be resolved as follows:
+
+The parties shall first attempt to resolve disputes through good-faith negotiations.
+
+If unresolved, the dispute shall be submitted to arbitration in Johannesburg, South Africa, under the rules of the Arbitration Foundation of Southern Africa (AFSA).
+
+10. ENTIRE AGREEMENT
+
+10.1 This Agreement constitutes the entire agreement between the parties and supersedes all prior negotiations, discussions, or agreements, whether written or oral.
+
+10.2 Any modification to this Agreement must be in writing and signed by both parties.
+
+By using the Software, Licensee acknowledges that they have read, understood, and agree to be bound by this Agreement.
+
+Licensor: Noxolo Mandisa Mkhungo
+Date: 2024 - 2025
