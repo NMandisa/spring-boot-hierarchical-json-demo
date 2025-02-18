@@ -48,10 +48,7 @@ class CustomerServiceTests {
 
     @BeforeEach
     void setUp() {
-        customerDTO = new CustomerDTO();
-        customerDTO.setId(1L);
-        customerDTO.setFirstName("John");
-        customerDTO.setSurname("Doe");
+        customerDTO = createCustomerDTO(1L,"John","Doe");
         MockitoAnnotations.openMocks(this);
     }
 
@@ -68,14 +65,7 @@ class CustomerServiceTests {
     @DisplayName("Should return all customers when fetching all customers")
     void shouldReturnAllCustomers_whenFetchingAllCustomers(Long id, String firstName, String surname) {
         // Arrange: Create a list of customers from CSV input
-        List<CustomerDTO> customerList = new ArrayList<>();
-
-        CustomerDTO customerDTO = new CustomerDTO();
-        customerDTO.setId(id);
-        customerDTO.setFirstName(firstName);
-        customerDTO.setSurname(surname);
-
-        customerList.add(customerDTO);
+        List<CustomerDTO> customerList = List.of(createCustomerDTO(id,firstName,surname));
         // Ensure this method is properly mocked if needed
         CustomerTree customerTree = customerTreePopulator.populateCustomerTree(customerList);
 
@@ -105,12 +95,11 @@ class CustomerServiceTests {
     @DisplayName("Should return customer when fetching by ID")
     void shouldReturnCustomer_whenFetchingById(Long id, String firstName, String surname) throws CustomerNotFoundException {
         // Arrange: Create the customer DTO from CSV input
-        CustomerDTO customerDTO = new CustomerDTO();
-        customerDTO.setId(id);
-        customerDTO.setFirstName(firstName);
-        customerDTO.setSurname(surname);
+        CustomerDTO customerDTO = createCustomerDTO(id,firstName,surname);
+
         // Ensure correct transformation
-        CustomerTree customerTree = customerTreePopulator.populateCustomerTree(List.of(customerDTO));
+        CustomerTree customerTree = customerTreePopulator.populateCustomerTree(
+                List.of(customerDTO));
 
         when(customerFacade.fetchCustomerById(id)).thenReturn(customerDTO);
         when(customerTreePopulator.populateCustomerTree(List.of(customerDTO))).thenReturn(customerTree);
@@ -283,5 +272,9 @@ class CustomerServiceTests {
         when(customerFacade.fetchCustomerById(1L)).thenThrow(new RuntimeException("Database error"));
 
         assertThrows(CustomerException.class, () -> customerService.getCustomerById(1L));
+    }
+
+    private CustomerDTO createCustomerDTO(Long id, String firstName, String lastName) {
+        return CustomerDTO.builder().surname(lastName).firstName(firstName).id(id).build();
     }
 }
