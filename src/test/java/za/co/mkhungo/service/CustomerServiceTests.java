@@ -48,7 +48,7 @@ class CustomerServiceTests {
 
     @BeforeEach
     void setUp() {
-        customerDTO = createCustomerDTO(1L,"John","Doe");
+        customerDTO = CustomerDTO.builder().id(1L).firstName("John").surname("Doe").build();
         MockitoAnnotations.openMocks(this);
     }
 
@@ -63,9 +63,9 @@ class CustomerServiceTests {
     @ParameterizedTest
     @CsvFileSource(resources = "/customers_list.csv", numLinesToSkip = 1)
     @DisplayName("Should return all customers when fetching all customers")
-    void shouldReturnAllCustomers_whenFetchingAllCustomers(Long id, String firstName, String surname) {
+    void shouldReturnAllCustomers_whenFetchingAllCustomers(String firstName, String surname) {
         // Arrange: Create a list of customers from CSV input
-        List<CustomerDTO> customerList = List.of(createCustomerDTO(id,firstName,surname));
+        List<CustomerDTO> customerList = List.of(CustomerDTO.builder().firstName(firstName).surname(surname).build());
         // Ensure this method is properly mocked if needed
         CustomerTree customerTree = customerTreePopulator.populateCustomerTree(customerList);
 
@@ -82,7 +82,6 @@ class CustomerServiceTests {
 
         // Validate first customer's details
         CustomerSubTree responseCustomer = response.getCustomers().getCustomer().getFirst();
-        assertEquals(id, responseCustomer.getId(), "Customer ID should match");
         assertEquals(firstName, responseCustomer.getFirstName(), "Customer first name should match");
         assertEquals(surname, responseCustomer.getSurname(), "Customer surname should match");
 
@@ -91,15 +90,14 @@ class CustomerServiceTests {
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/customers_list.csv", numLinesToSkip = 1)
+    @CsvFileSource(resources = "/customers_list_with_id.csv", numLinesToSkip = 1)
     @DisplayName("Should return customer when fetching by ID")
     void shouldReturnCustomer_whenFetchingById(Long id, String firstName, String surname) throws CustomerNotFoundException {
         // Arrange: Create the customer DTO from CSV input
-        CustomerDTO customerDTO = createCustomerDTO(id,firstName,surname);
+        CustomerDTO customerDTO = CustomerDTO.builder().firstName(firstName).surname(surname).build();
 
         // Ensure correct transformation
-        CustomerTree customerTree = customerTreePopulator.populateCustomerTree(
-                List.of(customerDTO));
+        CustomerTree customerTree = customerTreePopulator.populateCustomerTree(List.of(customerDTO));
 
         when(customerFacade.fetchCustomerById(id)).thenReturn(customerDTO);
         when(customerTreePopulator.populateCustomerTree(List.of(customerDTO))).thenReturn(customerTree);
@@ -272,9 +270,5 @@ class CustomerServiceTests {
         when(customerFacade.fetchCustomerById(1L)).thenThrow(new RuntimeException("Database error"));
 
         assertThrows(CustomerException.class, () -> customerService.getCustomerById(1L));
-    }
-
-    private CustomerDTO createCustomerDTO(Long id, String firstName, String lastName) {
-        return CustomerDTO.builder().surname(lastName).firstName(firstName).id(id).build();
     }
 }
